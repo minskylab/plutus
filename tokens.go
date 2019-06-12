@@ -1,6 +1,8 @@
 package plutus
 
-import "time"
+import (
+	"time"
+)
 
 // CardTokenType represents a type of token from your charger service
 type CardTokenType string
@@ -17,4 +19,8 @@ type CardToken struct {
 	Type      CardTokenType
 	Value     string
 	CreatedAt time.Time
+}
+
+func (token *CardToken) fillID() {
+	token.ID = ids.New()
 }

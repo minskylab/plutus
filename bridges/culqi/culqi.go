@@ -37,16 +37,41 @@ func (bridge *PlutusBridge) NewToken(details plutus.CardDetails, kind plutus.Car
 		return nil, err
 	}
 
-	token, err := bridge.generateNewOneUseToken(details)
-	if err != nil {
-		return nil, fmt.Errorf("[from culqi] %s", err.Error())
+	switch kind {
+	case plutus.OneUseToken:
+		token, err := bridge.generateNewOneUseToken(details)
+		if err != nil {
+			return nil, fmt.Errorf("[from culqi] %s", err.Error())
+		}
+
+		return &plutus.CardToken{
+			CreatedAt: time.Now(),
+			Type:      kind,
+			Value:     token.Value,
+		}, nil
+
+	case plutus.RecurrentToken:
+		token, err := bridge.generateNewOneUseToken(details)
+		if err != nil {
+			return nil, fmt.Errorf("[from culqi] %s", err.Error())
+		}
+
+		card, err := bridge.generateNewRecurrentToken(token.Value, details)
+		if err != nil {
+			return nil, fmt.Errorf("[from culqi] %s", err.Error())
+		}
+
+		return &plutus.CardToken{
+			CreatedAt: time.Now(),
+			Type:      kind,
+			Value:     card.ID,
+		}, nil
+	default:
+		break
 	}
 
-	return &plutus.CardToken{
-		CreatedAt: time.Now(),
-		Type:      kind,
-		Value:     token.Value,
-	}, nil
+	return nil, errors.New("invalid token type")
+
 }
 
 // MakeCharge make a charge with culqi, that implements plutus bridge
