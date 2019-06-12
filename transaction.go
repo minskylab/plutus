@@ -1,6 +1,9 @@
 package plutus
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 // FlowType is how the flow of resources (money in this case) is propagated
 type FlowType string
@@ -20,12 +23,40 @@ type Transaction struct {
 	Type      FlowType
 	State     TransactionState
 	Snapshots []*TransactionSnapshot
-	Give      []*Product
-	Expected  []*Product
+	Give      ProductList
+	Expected  ProductList
 }
 
 // TransactionSnapshot is a snapshot of one time transaction
 type TransactionSnapshot struct {
 	At       time.Time
 	Snapshot Transaction
+}
+
+func mockingTransaction() {
+
+	tran := Transaction{
+		Type: Charge,
+		Give: ProductList{
+			1: &Product{
+				Name:    "Huawei Plus x Max",
+				Details: "New product...",
+				Cost: Cost{
+					Amount:   720.0,
+					Currency: PEN,
+				},
+			},
+		},
+		Expected: ProductList{
+			1: &Product{
+				Cost: Cost{
+					Amount:   720.0,
+					Currency: PEN,
+				},
+			},
+		},
+	}
+
+	fmt.Println(tran)
+
 }

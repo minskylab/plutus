@@ -9,14 +9,14 @@ type Currency struct {
 }
 
 // UNIT is the basic unit of currency
-var UNIT = Currency{
+var UNIT = &Currency{
 	Multiplier: 1,
 	Name:       "UNIT",
 	Symbol:     "-",
 }
 
 // PEN represents a Peruvian Currency
-var PEN = Currency{
+var PEN = &Currency{
 	Multiplier: 100,
 	Name:       "PEN",
 	Symbol:     "s/",
@@ -24,9 +24,15 @@ var PEN = Currency{
 }
 
 // USD represents an American Dollar
-var USD = Currency{
+var USD = &Currency{
 	Multiplier: 364,
 	Name:       "USD",
 	Symbol:     "$",
 	// Base:       &UNIT,
+}
+
+// AvailableCurrencies is a map with available currencies
+var AvailableCurrencies = map[string]*Currency{
+	"PEN": PEN,
+	"USD": USD,
 }
