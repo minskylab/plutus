@@ -10,3 +10,14 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+node_modules
+.cache
+dist
+yarn.lock
+client/public
+
+.DS_Store
+node_modules
+yarn-error.log
+
+__sapper__

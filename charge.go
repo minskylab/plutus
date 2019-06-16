@@ -18,3 +18,7 @@ type ChargeToken struct {
 	Message   string
 	CreatedAt time.Time
 }
+
+func (token *ChargeToken) fillID() {
+	token.ID = ids.New()
+}

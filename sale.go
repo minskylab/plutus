@@ -1,6 +1,9 @@
 package plutus
 
-import "errors"
+import (
+	"errors"
+	"time"
+)
 
 // SaleState represents the state of any sale
 type SaleState string
@@ -23,6 +26,8 @@ var Done SaleState = "done"
 // Sale is a bidirectional transaction
 type Sale struct {
 	ID            string
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
 	State         SaleState
 	Customer      *Customer
 	Products      []Product
@@ -30,6 +35,10 @@ type Sale struct {
 	CardToken     *CardToken
 	Charge        *ChargeToken
 	CurrencyToPay *Currency
+}
+
+func (sale *Sale) fillID() {
+	sale.ID = ids.New()
 }
 
 func newBasicSale(customerEmail string, products []Product) (*Sale, error) {

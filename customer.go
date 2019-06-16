@@ -17,3 +17,7 @@ type Customer struct {
 	Phone    string
 	Location *Location
 }
+
+func (customer *Customer) fillID() {
+	customer.ID = ids.New()
+}
