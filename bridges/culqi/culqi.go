@@ -61,7 +61,7 @@ func (bridge *PlutusBridge) NewToken(details plutus.CardDetails, kind plutus.Car
 			return nil, fmt.Errorf("[from culqi] %s", err.Error())
 		}
 
-		details.Number[:]
+		details.Number[]
 		encodedNumberCard := 
 
 		return &plutus.CardToken{
