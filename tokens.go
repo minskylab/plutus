@@ -18,6 +18,7 @@ type CardToken struct {
 	ID        string
 	Type      CardTokenType
 	Value     string
+	WithCard  EncodedCardDetails
 	CreatedAt time.Time
 }
 

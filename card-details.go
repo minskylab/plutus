@@ -13,3 +13,10 @@ type CardDetails struct {
 	CVV        string
 	Customer   *Customer
 }
+
+// EncodedCardDetails represents a encoded card details (hidden complete number and expiration year too)
+type EncodedCardDetails struct {
+	Number         string
+	ExpirationYear string
+	Customer       *Customer
+}
