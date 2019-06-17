@@ -31,7 +31,7 @@ type DiscountCode struct {
 	Start   time.Time
 	End     time.Time
 	MaxUses int
-	Uses    []*DiscountUseRecord
+	Uses    []DiscountUseRecord
 	Code    string
 	Value   *Discount
 }

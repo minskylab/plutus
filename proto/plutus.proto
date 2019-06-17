@@ -16,20 +16,36 @@ service Plutus {
   rpc DeliverSaleReceipt(DeliverSaleRequest) returns (DeliverChannelResponse);
 
   rpc ChargeSaleByID(SaleIDRequest) returns (ChargeToken);
-  rpc ChargeSale(Sale) returns (ChargeToken);
+  rpc ChargeSaleWithNativeToken(ChargeWithNativeToken) returns (ChargeToken);
 
-  rpc CloseSale(SaleIDRequest) returns (Sale);
+  rpc DoneSale(SaleIDRequest) returns (Sale);
   
   rpc CreateDiscountCode(DiscountCodeRequest) returns (DiscountCode);
   rpc GetDiscountCode(DiscountCodeID) returns (DiscountCode);
+  rpc ValidateDiscountCode(DiscountCodeValue) returns (DiscountCodeExist);
   rpc GetActiveDiscountCodes(ActiveDiscountsRequest) returns (DiscountCodes);
   rpc DeleteDiscountCode(DiscountCodeID) returns (DiscountCodes);
 
 }
 
+message DiscountCodeValue {
+  string value = 1;
+  string customerID = 2;
+}
+
+message DiscountCodeExist {
+  bool ok = 1;
+}
+
+message ChargeWithNativeToken {
+  string saleID = 1;
+  string nativeToken = 2;
+}
+
 message DiscountCodes {
   repeated DiscountCode discounts = 1;
 }
+
 message ActiveDiscountsRequest {
   google.protobuf.Timestamp until = 1;
 }
@@ -135,7 +151,7 @@ message EncodedCardDetails {
 
 message Sale {
   string id = 1;
-  ActiveDiscountsRequest createdAt = 2;
+  google.protobuf.Timestamp createdAt = 2;
   google.protobuf.Timestamp updatedAt = 3;
   SaleState state = 4;
   Customer customer = 5;
