@@ -45,6 +45,7 @@ type NewDiscountCode struct {
 	Value   Discount
 }
 
-func (d *DiscountCode) fillID() {
+// FillID fills the id
+func (d *DiscountCode) FillID() {
 	d.ID = ids.New()
 }

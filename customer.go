@@ -18,6 +18,7 @@ type Customer struct {
 	Location *Location
 }
 
-func (customer *Customer) fillID() {
+// FillID fills the id
+func (customer *Customer) FillID() {
 	customer.ID = ids.New()
 }

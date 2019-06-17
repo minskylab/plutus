@@ -37,7 +37,8 @@ type Sale struct {
 	CurrencyToPay *Currency
 }
 
-func (sale *Sale) fillID() {
+// FillID fills the id
+func (sale *Sale) FillID() {
 	sale.ID = ids.New()
 }
 

@@ -61,17 +61,21 @@ func (bridge *PlutusBridge) NewToken(details plutus.CardDetails, kind plutus.Car
 			return nil, fmt.Errorf("[from culqi] %s", err.Error())
 		}
 
-		details.Number[]
-		encodedNumberCard := 
+		encodedNumberCard := ""
+		if len(details.Number) >= 4 {
+			encodedNumberCard = details.Number[len(details.Number)-4:]
+			encodedNumberCard = strings.Repeat("*", len(details.Number)-4) + encodedNumberCard
+		}
 
 		return &plutus.CardToken{
 			CreatedAt: time.Now(),
 			Type:      kind,
 			Value:     card.ID,
 			WithCard: plutus.EncodedCardDetails{
-				Number: 
-
-			}
+				Number:         encodedNumberCard,
+				Customer:       details.Customer,
+				ExpirationYear: details.Expiration.Year,
+			},
 		}, nil
 	default:
 		break

@@ -22,6 +22,7 @@ type CardToken struct {
 	CreatedAt time.Time
 }
 
-func (token *CardToken) fillID() {
+// FillID fills the id
+func (token *CardToken) FillID() {
 	token.ID = ids.New()
 }

@@ -13,12 +13,14 @@ type ChargeParams struct {
 
 // ChargeToken is the reponse from your payment bridge
 type ChargeToken struct {
-	ID        string
-	Value     string
-	Message   string
-	CreatedAt time.Time
+	ID            string
+	Value         string
+	Message       string
+	WithCardToken CardToken
+	CreatedAt     time.Time
 }
 
-func (token *ChargeToken) fillID() {
+// FillID fills the id
+func (token *ChargeToken) FillID() {
 	token.ID = ids.New()
 }

@@ -14,7 +14,7 @@ node_modules
 .cache
 dist
 yarn.lock
-client/public
+client-v2/public
 
 .DS_Store
 node_modules

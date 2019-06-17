@@ -16,6 +16,7 @@ type RefundToken struct {
 	CreatedAt time.Time
 }
 
-func (refund *RefundToken) fillID() {
+// FillID fills the id
+func (refund *RefundToken) FillID() {
 	refund.ID = ids.New()
 }

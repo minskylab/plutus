@@ -122,9 +122,10 @@ func (q *PlutusBridge) executeCharge(source plutus.CardToken, params plutus.Char
 	}
 
 	chargeToken := &plutus.ChargeToken{
-		CreatedAt: time.Now(),
-		Value:     cResponse.ID,
-		Message:   cResponse.Outcome.UserMessage,
+		CreatedAt:     time.Now(),
+		Value:         cResponse.ID,
+		Message:       cResponse.Outcome.UserMessage,
+		WithCardToken: source,
 	}
 
 	return chargeToken, nil
