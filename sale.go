@@ -56,9 +56,11 @@ func newBasicSale(customerEmail string, products []Product) (*Sale, error) {
 	}
 
 	return &Sale{
+		CreatedAt:     time.Now(),
+		UpdatedAt:     time.Now(),
 		State:         Draft,
 		Products:      products,
-		DiscountCodes: nil,
+		DiscountCodes: []DiscountCode{},
 		Customer: &Customer{
 			Email: customerEmail,
 		},

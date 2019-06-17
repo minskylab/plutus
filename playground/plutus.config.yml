@@ -8,3 +8,6 @@ delivery:
       endpoint: "Your smtp endpoint"
       user: "<MAILJET_USERNAME>"
       password: "<MAILJET_PASSWORD>"
+  - thermal:
+      ip: "Your thermal printer ip"
+      secret: "Your secret"

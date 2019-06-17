@@ -1,0 +1,201 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+service Plutus {
+  rpc NewCardToken(NewCardTokenRequest) returns (CardToken);
+  rpc GetCardTokenOfCustomerByID(CardTokenByID) returns (CardToken);
+  rpc GetCardTokenOfCustomerByCustomer(CardTokenByCustomer) returns (CardToken);
+  rpc DeleteCardToken(CardTokenByID) returns (CardToken);
+
+  rpc NewFastSale(FastSale) returns (Sale);
+  rpc NewSale(NewSaleRequest) returns (Sale);
+  rpc GetSale(SaleIDRequest) returns (Sale);
+  rpc UpdateSale(SaleUpdateRequest) returns (Sale);
+
+  rpc DeliverSaleReceipt(DeliverSaleRequest) returns (DeliverChannelResponse);
+
+  rpc ChargeSaleByID(SaleIDRequest) returns (ChargeToken);
+  rpc ChargeSale(Sale) returns (ChargeToken);
+
+  rpc CloseSale(SaleIDRequest) returns (Sale);
+  
+  rpc CreateDiscountCode(DiscountCodeRequest) returns (DiscountCode);
+  rpc GetDiscountCode(DiscountCodeID) returns (DiscountCode);
+  rpc GetActiveDiscountCodes(ActiveDiscountsRequest) returns (DiscountCodes);
+  rpc DeleteDiscountCode(DiscountCodeID) returns (DiscountCodes);
+
+}
+
+message DiscountCodes {
+  repeated DiscountCode discounts = 1;
+}
+message ActiveDiscountsRequest {
+  google.protobuf.Timestamp until = 1;
+}
+
+message DiscountCodeID {
+  string id = 1;
+}
+
+message DiscountCodeRequest {
+
+} 
+
+message SaleUpdateRequest {
+  string id = 1;
+  Sale updateData = 2;
+}
+
+message DeliverSaleRequest {
+  SaleIDRequest sale = 1;
+  DeliveryChannel channel = 2;
+}
+
+message DeliverChannelResponse {
+  string message = 1;
+  string code = 2;
+}
+
+message DeliveryChannel {
+  oneof identification {
+    string id = 1;
+    string name = 2;
+    string code = 3;
+  }
+}
+
+message SaleIDRequest {
+  string id = 1;
+}
+
+message FastSale {
+  string customerEmail = 1;
+  repeated Product products = 2;
+}
+
+message NewSaleRequest {
+  Customer customer = 1;
+  repeated Product products = 2;
+}
+
+message CardTokenByID { string id = 1; }
+
+message CardTokenByCustomer { Customer customer = 1; }
+
+message NewCardTokenRequest {
+  Card card = 1;
+  Customer customer = 2;
+
+  CardTokenType type = 3;
+}
+
+message Card {
+  string number = 1;
+  int32 expMont = 2;
+  int32 expYear = 3;
+  string cvc = 4;
+}
+
+message Customer {
+  string id = 1;
+  string email = 2;
+  string name = 3;
+
+  string phone = 4;
+
+  Location location = 5;
+}
+
+message Location {
+  string address = 1;
+  string city = 2;
+  string state = 3;
+  string zip = 4;
+}
+
+message CardToken {
+  string id = 1;
+  CardTokenType type = 2;
+  string value = 3;
+  EncodedCardDetails withCard = 4;
+  google.protobuf.Timestamp createdAt = 5;
+}
+
+enum CardTokenType {
+  ONEUSE = 0;
+  RECURRENT = 1;
+}
+
+message EncodedCardDetails {
+  string number = 1;
+  int32 expirationYear = 2;
+  Customer customer = 3;
+}
+
+message Sale {
+  string id = 1;
+  ActiveDiscountsRequest createdAt = 2;
+  google.protobuf.Timestamp updatedAt = 3;
+  SaleState state = 4;
+  Customer customer = 5;
+  repeated Product products = 6;
+  repeated DiscountCode discountCodes = 7;
+  CardToken cardToken = 8;
+  ChargeToken charge = 9;
+  string currencyToPay = 10;
+}
+
+message Product {
+  string name = 1;
+  string details = 2;
+  Cost cost = 3;
+}
+
+message Cost {
+  double amount = 1;
+  string currency = 2;
+}
+
+enum SaleState {
+  NULL = 0;
+  DRAFT = 1;
+  SIGNED = 2;
+  PAIDOUT = 3;
+  DONE = 4;
+}
+
+message ChargeToken {
+  string id = 1;
+  string value = 2;
+  string message = 3;
+  CardToken withCardToken = 4;
+  google.protobuf.Timestamp createdAt = 5;
+}
+
+message DiscountCode {
+  string id = 1;
+  google.protobuf.Timestamp start = 2;
+  google.protobuf.Timestamp end = 3;
+  int32 maxUses = 4;
+  repeated DiscountUseRecord uses = 5;
+  string code = 6;
+  Discount value = 7;
+}
+
+message DiscountUseRecord {
+  google.protobuf.Timestamp at = 1;
+	Customer by = 2;
+}
+
+message Discount {
+  DiscountType type = 1;
+	double percent = 2;
+	double amount = 3;
+	string currency = 4;
+}
+
+enum DiscountType {
+  STATIC = 0;
+  PERCENT = 1;
+}
