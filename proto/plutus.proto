@@ -4,6 +4,7 @@ import "google/protobuf/timestamp.proto";
 
 service Plutus {
   rpc NewCardToken(NewCardTokenRequest) returns (CardToken);
+  rpc NewCardTokenFromNative(NewCardTokenNativeRequest) returns (CardToken);
   rpc GetCardTokenOfCustomerByID(CardTokenByID) returns (CardToken);
   rpc GetCardTokenOfCustomerByCustomer(CardTokenByCustomer) returns (CardToken);
   rpc DeleteCardToken(CardTokenByID) returns (CardToken);
@@ -19,13 +20,18 @@ service Plutus {
   rpc ChargeSaleWithNativeToken(ChargeWithNativeToken) returns (ChargeToken);
 
   rpc DoneSale(SaleIDRequest) returns (Sale);
-  
+
   rpc CreateDiscountCode(DiscountCodeRequest) returns (DiscountCode);
   rpc GetDiscountCode(DiscountCodeID) returns (DiscountCode);
   rpc ValidateDiscountCode(DiscountCodeValue) returns (DiscountCodeExist);
   rpc GetActiveDiscountCodes(ActiveDiscountsRequest) returns (DiscountCodes);
   rpc DeleteDiscountCode(DiscountCodeID) returns (DiscountCodes);
+}
 
+message NewCardTokenNativeRequest {
+  string token = 1;
+  Customer customer = 2;
+  CardTokenType type = 3;
 }
 
 message DiscountCodeValue {
@@ -33,30 +39,20 @@ message DiscountCodeValue {
   string customerID = 2;
 }
 
-message DiscountCodeExist {
-  bool ok = 1;
-}
+message DiscountCodeExist { bool ok = 1; }
 
 message ChargeWithNativeToken {
   string saleID = 1;
   string nativeToken = 2;
 }
 
-message DiscountCodes {
-  repeated DiscountCode discounts = 1;
-}
+message DiscountCodes { repeated DiscountCode discounts = 1; }
 
-message ActiveDiscountsRequest {
-  google.protobuf.Timestamp until = 1;
-}
+message ActiveDiscountsRequest { google.protobuf.Timestamp until = 1; }
 
-message DiscountCodeID {
-  string id = 1;
-}
+message DiscountCodeID { string id = 1; }
 
-message DiscountCodeRequest {
-
-} 
+message DiscountCodeRequest {}
 
 message SaleUpdateRequest {
   string id = 1;
@@ -81,9 +77,7 @@ message DeliveryChannel {
   }
 }
 
-message SaleIDRequest {
-  string id = 1;
-}
+message SaleIDRequest { string id = 1; }
 
 message FastSale {
   string customerEmail = 1;
@@ -201,14 +195,14 @@ message DiscountCode {
 
 message DiscountUseRecord {
   google.protobuf.Timestamp at = 1;
-	Customer by = 2;
+  Customer by = 2;
 }
 
 message Discount {
   DiscountType type = 1;
-	double percent = 2;
-	double amount = 3;
-	string currency = 4;
+  double percent = 2;
+  double amount = 3;
+  string currency = 4;
 }
 
 enum DiscountType {

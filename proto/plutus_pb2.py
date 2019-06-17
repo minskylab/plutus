@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x12proto/plutus.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"6\n\x11\x44iscountCodeValue\x12\r\n\x05value\x18\x01 \x01(\t\x12\x12\n\ncustomerID\x18\x02 \x01(\t\"\x1f\n\x11\x44iscountCodeExist\x12\n\n\x02ok\x18\x01 \x01(\x08\"<\n\x15\x43hargeWithNativeToken\x12\x0e\n\x06saleID\x18\x01 \x01(\t\x12\x13\n\x0bnativeToken\x18\x02 \x01(\t\"1\n\rDiscountCodes\x12 \n\tdiscounts\x18\x01 \x03(\x0b\x32\r.DiscountCode\"C\n\x16\x41\x63tiveDiscountsRequest\x12)\n\x05until\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"\x1c\n\x0e\x44iscountCodeID\x12\n\n\x02id\x18\x01 \x01(\t\"\x15\n\x13\x44iscountCodeRequest\":\n\x11SaleUpdateRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x19\n\nupdateData\x18\x02 \x01(\x0b\x32\x05.Sale\"U\n\x12\x44\x65liverSaleRequest\x12\x1c\n\x04sale\x18\x01 \x01(\x0b\x32\x0e.SaleIDRequest\x12!\n\x07\x63hannel\x18\x02 \x01(\x0b\x32\x10.DeliveryChannel\"7\n\x16\x44\x65liverChannelResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0c\n\x04\x63ode\x18\x02 \x01(\t\"Q\n\x0f\x44\x65liveryChannel\x12\x0c\n\x02id\x18\x01 \x01(\tH\x00\x12\x0e\n\x04name\x18\x02 \x01(\tH\x00\x12\x0e\n\x04\x63ode\x18\x03 \x01(\tH\x00\x42\x10\n\x0eidentification\"\x1b\n\rSaleIDRequest\x12\n\n\x02id\x18\x01 \x01(\t\"=\n\x08\x46\x61stSale\x12\x15\n\rcustomerEmail\x18\x01 \x01(\t\x12\x1a\n\x08products\x18\x02 \x03(\x0b\x32\x08.Product\"I\n\x0eNewSaleRequest\x12\x1b\n\x08\x63ustomer\x18\x01 \x01(\x0b\x32\t.Customer\x12\x1a\n\x08products\x18\x02 \x03(\x0b\x32\x08.Product\"\x1b\n\rCardTokenByID\x12\n\n\x02id\x18\x01 \x01(\t\"2\n\x13\x43\x61rdTokenByCustomer\x12\x1b\n\x08\x63ustomer\x18\x01 \x01(\x0b\x32\t.Customer\"e\n\x13NewCardTokenRequest\x12\x13\n\x04\x63\x61rd\x18\x01 \x01(\x0b\x32\x05.Card\x12\x1b\n\x08\x63ustomer\x18\x02 \x01(\x0b\x32\t.Customer\x12\x1c\n\x04type\x18\x03 \x01(\x0e\x32\x0e.CardTokenType\"E\n\x04\x43\x61rd\x12\x0e\n\x06number\x18\x01 \x01(\t\x12\x0f\n\x07\x65xpMont\x18\x02 \x01(\x05\x12\x0f\n\x07\x65xpYear\x18\x03 \x01(\x05\x12\x0b\n\x03\x63vc\x18\x04 \x01(\t\"_\n\x08\x43ustomer\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05\x65mail\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\r\n\x05phone\x18\x04 \x01(\t\x12\x1b\n\x08location\x18\x05 \x01(\x0b\x32\t.Location\"E\n\x08Location\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12\x0c\n\x04\x63ity\x18\x02 \x01(\t\x12\r\n\x05state\x18\x03 \x01(\t\x12\x0b\n\x03zip\x18\x04 \x01(\t\"\x9a\x01\n\tCardToken\x12\n\n\x02id\x18\x01 \x01(\t\x12\x1c\n\x04type\x18\x02 \x01(\x0e\x32\x0e.CardTokenType\x12\r\n\x05value\x18\x03 \x01(\t\x12%\n\x08withCard\x18\x04 \x01(\x0b\x32\x13.EncodedCardDetails\x12-\n\tcreatedAt\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"Y\n\x12\x45ncodedCardDetails\x12\x0e\n\x06number\x18\x01 \x01(\t\x12\x16\n\x0e\x65xpirationYear\x18\x02 \x01(\x05\x12\x1b\n\x08\x63ustomer\x18\x03 \x01(\x0b\x32\t.Customer\"\xbe\x02\n\x04Sale\x12\n\n\x02id\x18\x01 \x01(\t\x12-\n\tcreatedAt\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12-\n\tupdatedAt\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x19\n\x05state\x18\x04 \x01(\x0e\x32\n.SaleState\x12\x1b\n\x08\x63ustomer\x18\x05 \x01(\x0b\x32\t.Customer\x12\x1a\n\x08products\x18\x06 \x03(\x0b\x32\x08.Product\x12$\n\rdiscountCodes\x18\x07 \x03(\x0b\x32\r.DiscountCode\x12\x1d\n\tcardToken\x18\x08 \x01(\x0b\x32\n.CardToken\x12\x1c\n\x06\x63harge\x18\t \x01(\x0b\x32\x0c.ChargeToken\x12\x15\n\rcurrencyToPay\x18\n \x01(\t\"=\n\x07Product\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07\x64\x65tails\x18\x02 \x01(\t\x12\x13\n\x04\x63ost\x18\x03 \x01(\x0b\x32\x05.Cost\"(\n\x04\x43ost\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x01\x12\x10\n\x08\x63urrency\x18\x02 \x01(\t\"\x8b\x01\n\x0b\x43hargeToken\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\x12\x0f\n\x07message\x18\x03 \x01(\t\x12!\n\rwithCardToken\x18\x04 \x01(\x0b\x32\n.CardToken\x12-\n\tcreatedAt\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"\xc9\x01\n\x0c\x44iscountCode\x12\n\n\x02id\x18\x01 \x01(\t\x12)\n\x05start\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\'\n\x03\x65nd\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x0f\n\x07maxUses\x18\x04 \x01(\x05\x12 \n\x04uses\x18\x05 \x03(\x0b\x32\x12.DiscountUseRecord\x12\x0c\n\x04\x63ode\x18\x06 \x01(\t\x12\x18\n\x05value\x18\x07 \x01(\x0b\x32\t.Discount\"R\n\x11\x44iscountUseRecord\x12&\n\x02\x61t\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x15\n\x02\x62y\x18\x02 \x01(\x0b\x32\t.Customer\"Z\n\x08\x44iscount\x12\x1b\n\x04type\x18\x01 \x01(\x0e\x32\r.DiscountType\x12\x0f\n\x07percent\x18\x02 \x01(\x01\x12\x0e\n\x06\x61mount\x18\x03 \x01(\x01\x12\x10\n\x08\x63urrency\x18\x04 \x01(\t**\n\rCardTokenType\x12\n\n\x06ONEUSE\x10\x00\x12\r\n\tRECURRENT\x10\x01*C\n\tSaleState\x12\x08\n\x04NULL\x10\x00\x12\t\n\x05\x44RAFT\x10\x01\x12\n\n\x06SIGNED\x10\x02\x12\x0b\n\x07PAIDOUT\x10\x03\x12\x08\n\x04\x44ONE\x10\x04*\'\n\x0c\x44iscountType\x12\n\n\x06STATIC\x10\x00\x12\x0b\n\x07PERCENT\x10\x01\x32\xfa\x06\n\x06Plutus\x12\x30\n\x0cNewCardToken\x12\x14.NewCardTokenRequest\x1a\n.CardToken\x12\x38\n\x1aGetCardTokenOfCustomerByID\x12\x0e.CardTokenByID\x1a\n.CardToken\x12\x44\n GetCardTokenOfCustomerByCustomer\x12\x14.CardTokenByCustomer\x1a\n.CardToken\x12-\n\x0f\x44\x65leteCardToken\x12\x0e.CardTokenByID\x1a\n.CardToken\x12\x1f\n\x0bNewFastSale\x12\t.FastSale\x1a\x05.Sale\x12!\n\x07NewSale\x12\x0f.NewSaleRequest\x1a\x05.Sale\x12 \n\x07GetSale\x12\x0e.SaleIDRequest\x1a\x05.Sale\x12\'\n\nUpdateSale\x12\x12.SaleUpdateRequest\x1a\x05.Sale\x12\x42\n\x12\x44\x65liverSaleReceipt\x12\x13.DeliverSaleRequest\x1a\x17.DeliverChannelResponse\x12.\n\x0e\x43hargeSaleByID\x12\x0e.SaleIDRequest\x1a\x0c.ChargeToken\x12\x41\n\x19\x43hargeSaleWithNativeToken\x12\x16.ChargeWithNativeToken\x1a\x0c.ChargeToken\x12!\n\x08\x44oneSale\x12\x0e.SaleIDRequest\x1a\x05.Sale\x12\x39\n\x12\x43reateDiscountCode\x12\x14.DiscountCodeRequest\x1a\r.DiscountCode\x12\x31\n\x0fGetDiscountCode\x12\x0f.DiscountCodeID\x1a\r.DiscountCode\x12>\n\x14ValidateDiscountCode\x12\x12.DiscountCodeValue\x1a\x12.DiscountCodeExist\x12\x41\n\x16GetActiveDiscountCodes\x12\x17.ActiveDiscountsRequest\x1a\x0e.DiscountCodes\x12\x35\n\x12\x44\x65leteDiscountCode\x12\x0f.DiscountCodeID\x1a\x0e.DiscountCodesb\x06proto3')
+  serialized_pb=_b('\n\x12proto/plutus.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"e\n\x19NewCardTokenNativeRequest\x12\r\n\x05token\x18\x01 \x01(\t\x12\x1b\n\x08\x63ustomer\x18\x02 \x01(\x0b\x32\t.Customer\x12\x1c\n\x04type\x18\x03 \x01(\x0e\x32\x0e.CardTokenType\"6\n\x11\x44iscountCodeValue\x12\r\n\x05value\x18\x01 \x01(\t\x12\x12\n\ncustomerID\x18\x02 \x01(\t\"\x1f\n\x11\x44iscountCodeExist\x12\n\n\x02ok\x18\x01 \x01(\x08\"<\n\x15\x43hargeWithNativeToken\x12\x0e\n\x06saleID\x18\x01 \x01(\t\x12\x13\n\x0bnativeToken\x18\x02 \x01(\t\"1\n\rDiscountCodes\x12 \n\tdiscounts\x18\x01 \x03(\x0b\x32\r.DiscountCode\"C\n\x16\x41\x63tiveDiscountsRequest\x12)\n\x05until\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"\x1c\n\x0e\x44iscountCodeID\x12\n\n\x02id\x18\x01 \x01(\t\"\x15\n\x13\x44iscountCodeRequest\":\n\x11SaleUpdateRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x19\n\nupdateData\x18\x02 \x01(\x0b\x32\x05.Sale\"U\n\x12\x44\x65liverSaleRequest\x12\x1c\n\x04sale\x18\x01 \x01(\x0b\x32\x0e.SaleIDRequest\x12!\n\x07\x63hannel\x18\x02 \x01(\x0b\x32\x10.DeliveryChannel\"7\n\x16\x44\x65liverChannelResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0c\n\x04\x63ode\x18\x02 \x01(\t\"Q\n\x0f\x44\x65liveryChannel\x12\x0c\n\x02id\x18\x01 \x01(\tH\x00\x12\x0e\n\x04name\x18\x02 \x01(\tH\x00\x12\x0e\n\x04\x63ode\x18\x03 \x01(\tH\x00\x42\x10\n\x0eidentification\"\x1b\n\rSaleIDRequest\x12\n\n\x02id\x18\x01 \x01(\t\"=\n\x08\x46\x61stSale\x12\x15\n\rcustomerEmail\x18\x01 \x01(\t\x12\x1a\n\x08products\x18\x02 \x03(\x0b\x32\x08.Product\"I\n\x0eNewSaleRequest\x12\x1b\n\x08\x63ustomer\x18\x01 \x01(\x0b\x32\t.Customer\x12\x1a\n\x08products\x18\x02 \x03(\x0b\x32\x08.Product\"\x1b\n\rCardTokenByID\x12\n\n\x02id\x18\x01 \x01(\t\"2\n\x13\x43\x61rdTokenByCustomer\x12\x1b\n\x08\x63ustomer\x18\x01 \x01(\x0b\x32\t.Customer\"e\n\x13NewCardTokenRequest\x12\x13\n\x04\x63\x61rd\x18\x01 \x01(\x0b\x32\x05.Card\x12\x1b\n\x08\x63ustomer\x18\x02 \x01(\x0b\x32\t.Customer\x12\x1c\n\x04type\x18\x03 \x01(\x0e\x32\x0e.CardTokenType\"E\n\x04\x43\x61rd\x12\x0e\n\x06number\x18\x01 \x01(\t\x12\x0f\n\x07\x65xpMont\x18\x02 \x01(\x05\x12\x0f\n\x07\x65xpYear\x18\x03 \x01(\x05\x12\x0b\n\x03\x63vc\x18\x04 \x01(\t\"_\n\x08\x43ustomer\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05\x65mail\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\r\n\x05phone\x18\x04 \x01(\t\x12\x1b\n\x08location\x18\x05 \x01(\x0b\x32\t.Location\"E\n\x08Location\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12\x0c\n\x04\x63ity\x18\x02 \x01(\t\x12\r\n\x05state\x18\x03 \x01(\t\x12\x0b\n\x03zip\x18\x04 \x01(\t\"\x9a\x01\n\tCardToken\x12\n\n\x02id\x18\x01 \x01(\t\x12\x1c\n\x04type\x18\x02 \x01(\x0e\x32\x0e.CardTokenType\x12\r\n\x05value\x18\x03 \x01(\t\x12%\n\x08withCard\x18\x04 \x01(\x0b\x32\x13.EncodedCardDetails\x12-\n\tcreatedAt\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"Y\n\x12\x45ncodedCardDetails\x12\x0e\n\x06number\x18\x01 \x01(\t\x12\x16\n\x0e\x65xpirationYear\x18\x02 \x01(\x05\x12\x1b\n\x08\x63ustomer\x18\x03 \x01(\x0b\x32\t.Customer\"\xbe\x02\n\x04Sale\x12\n\n\x02id\x18\x01 \x01(\t\x12-\n\tcreatedAt\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12-\n\tupdatedAt\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x19\n\x05state\x18\x04 \x01(\x0e\x32\n.SaleState\x12\x1b\n\x08\x63ustomer\x18\x05 \x01(\x0b\x32\t.Customer\x12\x1a\n\x08products\x18\x06 \x03(\x0b\x32\x08.Product\x12$\n\rdiscountCodes\x18\x07 \x03(\x0b\x32\r.DiscountCode\x12\x1d\n\tcardToken\x18\x08 \x01(\x0b\x32\n.CardToken\x12\x1c\n\x06\x63harge\x18\t \x01(\x0b\x32\x0c.ChargeToken\x12\x15\n\rcurrencyToPay\x18\n \x01(\t\"=\n\x07Product\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07\x64\x65tails\x18\x02 \x01(\t\x12\x13\n\x04\x63ost\x18\x03 \x01(\x0b\x32\x05.Cost\"(\n\x04\x43ost\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x01\x12\x10\n\x08\x63urrency\x18\x02 \x01(\t\"\x8b\x01\n\x0b\x43hargeToken\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\x12\x0f\n\x07message\x18\x03 \x01(\t\x12!\n\rwithCardToken\x18\x04 \x01(\x0b\x32\n.CardToken\x12-\n\tcreatedAt\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"\xc9\x01\n\x0c\x44iscountCode\x12\n\n\x02id\x18\x01 \x01(\t\x12)\n\x05start\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\'\n\x03\x65nd\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x0f\n\x07maxUses\x18\x04 \x01(\x05\x12 \n\x04uses\x18\x05 \x03(\x0b\x32\x12.DiscountUseRecord\x12\x0c\n\x04\x63ode\x18\x06 \x01(\t\x12\x18\n\x05value\x18\x07 \x01(\x0b\x32\t.Discount\"R\n\x11\x44iscountUseRecord\x12&\n\x02\x61t\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x15\n\x02\x62y\x18\x02 \x01(\x0b\x32\t.Customer\"Z\n\x08\x44iscount\x12\x1b\n\x04type\x18\x01 \x01(\x0e\x32\r.DiscountType\x12\x0f\n\x07percent\x18\x02 \x01(\x01\x12\x0e\n\x06\x61mount\x18\x03 \x01(\x01\x12\x10\n\x08\x63urrency\x18\x04 \x01(\t**\n\rCardTokenType\x12\n\n\x06ONEUSE\x10\x00\x12\r\n\tRECURRENT\x10\x01*C\n\tSaleState\x12\x08\n\x04NULL\x10\x00\x12\t\n\x05\x44RAFT\x10\x01\x12\n\n\x06SIGNED\x10\x02\x12\x0b\n\x07PAIDOUT\x10\x03\x12\x08\n\x04\x44ONE\x10\x04*\'\n\x0c\x44iscountType\x12\n\n\x06STATIC\x10\x00\x12\x0b\n\x07PERCENT\x10\x01\x32\xbc\x07\n\x06Plutus\x12\x30\n\x0cNewCardToken\x12\x14.NewCardTokenRequest\x1a\n.CardToken\x12@\n\x16NewCardTokenFromNative\x12\x1a.NewCardTokenNativeRequest\x1a\n.CardToken\x12\x38\n\x1aGetCardTokenOfCustomerByID\x12\x0e.CardTokenByID\x1a\n.CardToken\x12\x44\n GetCardTokenOfCustomerByCustomer\x12\x14.CardTokenByCustomer\x1a\n.CardToken\x12-\n\x0f\x44\x65leteCardToken\x12\x0e.CardTokenByID\x1a\n.CardToken\x12\x1f\n\x0bNewFastSale\x12\t.FastSale\x1a\x05.Sale\x12!\n\x07NewSale\x12\x0f.NewSaleRequest\x1a\x05.Sale\x12 \n\x07GetSale\x12\x0e.SaleIDRequest\x1a\x05.Sale\x12\'\n\nUpdateSale\x12\x12.SaleUpdateRequest\x1a\x05.Sale\x12\x42\n\x12\x44\x65liverSaleReceipt\x12\x13.DeliverSaleRequest\x1a\x17.DeliverChannelResponse\x12.\n\x0e\x43hargeSaleByID\x12\x0e.SaleIDRequest\x1a\x0c.ChargeToken\x12\x41\n\x19\x43hargeSaleWithNativeToken\x12\x16.ChargeWithNativeToken\x1a\x0c.ChargeToken\x12!\n\x08\x44oneSale\x12\x0e.SaleIDRequest\x1a\x05.Sale\x12\x39\n\x12\x43reateDiscountCode\x12\x14.DiscountCodeRequest\x1a\r.DiscountCode\x12\x31\n\x0fGetDiscountCode\x12\x0f.DiscountCodeID\x1a\r.DiscountCode\x12>\n\x14ValidateDiscountCode\x12\x12.DiscountCodeValue\x1a\x12.DiscountCodeExist\x12\x41\n\x16GetActiveDiscountCodes\x12\x17.ActiveDiscountsRequest\x1a\x0e.DiscountCodes\x12\x35\n\x12\x44\x65leteDiscountCode\x12\x0f.DiscountCodeID\x1a\x0e.DiscountCodesb\x06proto3')
   ,
   dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,])
 
@@ -42,8 +42,8 @@ _CARDTOKENTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2452,
-  serialized_end=2494,
+  serialized_start=2555,
+  serialized_end=2597,
 )
 _sym_db.RegisterEnumDescriptor(_CARDTOKENTYPE)
 
@@ -77,8 +77,8 @@ _SALESTATE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2496,
-  serialized_end=2563,
+  serialized_start=2599,
+  serialized_end=2666,
 )
 _sym_db.RegisterEnumDescriptor(_SALESTATE)
 
@@ -100,8 +100,8 @@ _DISCOUNTTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2565,
-  serialized_end=2604,
+  serialized_start=2668,
+  serialized_end=2707,
 )
 _sym_db.RegisterEnumDescriptor(_DISCOUNTTYPE)
 
@@ -116,6 +116,51 @@ DONE = 4
 STATIC = 0
 PERCENT = 1
 
+
+
+_NEWCARDTOKENNATIVEREQUEST = _descriptor.Descriptor(
+  name='NewCardTokenNativeRequest',
+  full_name='NewCardTokenNativeRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='token', full_name='NewCardTokenNativeRequest.token', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='customer', full_name='NewCardTokenNativeRequest.customer', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='type', full_name='NewCardTokenNativeRequest.type', index=2,
+      number=3, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=55,
+  serialized_end=156,
+)
 
 
 _DISCOUNTCODEVALUE = _descriptor.Descriptor(
@@ -151,8 +196,8 @@ _DISCOUNTCODEVALUE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=55,
-  serialized_end=109,
+  serialized_start=158,
+  serialized_end=212,
 )
 
 
@@ -182,8 +227,8 @@ _DISCOUNTCODEEXIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=111,
-  serialized_end=142,
+  serialized_start=214,
+  serialized_end=245,
 )
 
 
@@ -220,8 +265,8 @@ _CHARGEWITHNATIVETOKEN = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=144,
-  serialized_end=204,
+  serialized_start=247,
+  serialized_end=307,
 )
 
 
@@ -251,8 +296,8 @@ _DISCOUNTCODES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=206,
-  serialized_end=255,
+  serialized_start=309,
+  serialized_end=358,
 )
 
 
@@ -282,8 +327,8 @@ _ACTIVEDISCOUNTSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=257,
-  serialized_end=324,
+  serialized_start=360,
+  serialized_end=427,
 )
 
 
@@ -313,8 +358,8 @@ _DISCOUNTCODEID = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=326,
-  serialized_end=354,
+  serialized_start=429,
+  serialized_end=457,
 )
 
 
@@ -337,8 +382,8 @@ _DISCOUNTCODEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=356,
-  serialized_end=377,
+  serialized_start=459,
+  serialized_end=480,
 )
 
 
@@ -375,8 +420,8 @@ _SALEUPDATEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=379,
-  serialized_end=437,
+  serialized_start=482,
+  serialized_end=540,
 )
 
 
@@ -413,8 +458,8 @@ _DELIVERSALEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=439,
-  serialized_end=524,
+  serialized_start=542,
+  serialized_end=627,
 )
 
 
@@ -451,8 +496,8 @@ _DELIVERCHANNELRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=526,
-  serialized_end=581,
+  serialized_start=629,
+  serialized_end=684,
 )
 
 
@@ -499,8 +544,8 @@ _DELIVERYCHANNEL = _descriptor.Descriptor(
       name='identification', full_name='DeliveryChannel.identification',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=583,
-  serialized_end=664,
+  serialized_start=686,
+  serialized_end=767,
 )
 
 
@@ -530,8 +575,8 @@ _SALEIDREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=666,
-  serialized_end=693,
+  serialized_start=769,
+  serialized_end=796,
 )
 
 
@@ -568,8 +613,8 @@ _FASTSALE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=695,
-  serialized_end=756,
+  serialized_start=798,
+  serialized_end=859,
 )
 
 
@@ -606,8 +651,8 @@ _NEWSALEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=758,
-  serialized_end=831,
+  serialized_start=861,
+  serialized_end=934,
 )
 
 
@@ -637,8 +682,8 @@ _CARDTOKENBYID = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=833,
-  serialized_end=860,
+  serialized_start=936,
+  serialized_end=963,
 )
 
 
@@ -668,8 +713,8 @@ _CARDTOKENBYCUSTOMER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=862,
-  serialized_end=912,
+  serialized_start=965,
+  serialized_end=1015,
 )
 
 
@@ -713,8 +758,8 @@ _NEWCARDTOKENREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=914,
-  serialized_end=1015,
+  serialized_start=1017,
+  serialized_end=1118,
 )
 
 
@@ -765,8 +810,8 @@ _CARD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1017,
-  serialized_end=1086,
+  serialized_start=1120,
+  serialized_end=1189,
 )
 
 
@@ -824,8 +869,8 @@ _CUSTOMER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1088,
-  serialized_end=1183,
+  serialized_start=1191,
+  serialized_end=1286,
 )
 
 
@@ -876,8 +921,8 @@ _LOCATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1185,
-  serialized_end=1254,
+  serialized_start=1288,
+  serialized_end=1357,
 )
 
 
@@ -935,8 +980,8 @@ _CARDTOKEN = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1257,
-  serialized_end=1411,
+  serialized_start=1360,
+  serialized_end=1514,
 )
 
 
@@ -980,8 +1025,8 @@ _ENCODEDCARDDETAILS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1413,
-  serialized_end=1502,
+  serialized_start=1516,
+  serialized_end=1605,
 )
 
 
@@ -1074,8 +1119,8 @@ _SALE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1505,
-  serialized_end=1823,
+  serialized_start=1608,
+  serialized_end=1926,
 )
 
 
@@ -1119,8 +1164,8 @@ _PRODUCT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1825,
-  serialized_end=1886,
+  serialized_start=1928,
+  serialized_end=1989,
 )
 
 
@@ -1157,8 +1202,8 @@ _COST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1888,
-  serialized_end=1928,
+  serialized_start=1991,
+  serialized_end=2031,
 )
 
 
@@ -1216,8 +1261,8 @@ _CHARGETOKEN = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1931,
-  serialized_end=2070,
+  serialized_start=2034,
+  serialized_end=2173,
 )
 
 
@@ -1289,8 +1334,8 @@ _DISCOUNTCODE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2073,
-  serialized_end=2274,
+  serialized_start=2176,
+  serialized_end=2377,
 )
 
 
@@ -1327,8 +1372,8 @@ _DISCOUNTUSERECORD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2276,
-  serialized_end=2358,
+  serialized_start=2379,
+  serialized_end=2461,
 )
 
 
@@ -1379,10 +1424,12 @@ _DISCOUNT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2360,
-  serialized_end=2450,
+  serialized_start=2463,
+  serialized_end=2553,
 )
 
+_NEWCARDTOKENNATIVEREQUEST.fields_by_name['customer'].message_type = _CUSTOMER
+_NEWCARDTOKENNATIVEREQUEST.fields_by_name['type'].enum_type = _CARDTOKENTYPE
 _DISCOUNTCODES.fields_by_name['discounts'].message_type = _DISCOUNTCODE
 _ACTIVEDISCOUNTSREQUEST.fields_by_name['until'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
 _SALEUPDATEREQUEST.fields_by_name['updateData'].message_type = _SALE
@@ -1427,6 +1474,7 @@ _DISCOUNTCODE.fields_by_name['value'].message_type = _DISCOUNT
 _DISCOUNTUSERECORD.fields_by_name['at'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
 _DISCOUNTUSERECORD.fields_by_name['by'].message_type = _CUSTOMER
 _DISCOUNT.fields_by_name['type'].enum_type = _DISCOUNTTYPE
+DESCRIPTOR.message_types_by_name['NewCardTokenNativeRequest'] = _NEWCARDTOKENNATIVEREQUEST
 DESCRIPTOR.message_types_by_name['DiscountCodeValue'] = _DISCOUNTCODEVALUE
 DESCRIPTOR.message_types_by_name['DiscountCodeExist'] = _DISCOUNTCODEEXIST
 DESCRIPTOR.message_types_by_name['ChargeWithNativeToken'] = _CHARGEWITHNATIVETOKEN
@@ -1460,6 +1508,13 @@ DESCRIPTOR.enum_types_by_name['CardTokenType'] = _CARDTOKENTYPE
 DESCRIPTOR.enum_types_by_name['SaleState'] = _SALESTATE
 DESCRIPTOR.enum_types_by_name['DiscountType'] = _DISCOUNTTYPE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
+NewCardTokenNativeRequest = _reflection.GeneratedProtocolMessageType('NewCardTokenNativeRequest', (_message.Message,), dict(
+  DESCRIPTOR = _NEWCARDTOKENNATIVEREQUEST,
+  __module__ = 'proto.plutus_pb2'
+  # @@protoc_insertion_point(class_scope:NewCardTokenNativeRequest)
+  ))
+_sym_db.RegisterMessage(NewCardTokenNativeRequest)
 
 DiscountCodeValue = _reflection.GeneratedProtocolMessageType('DiscountCodeValue', (_message.Message,), dict(
   DESCRIPTOR = _DISCOUNTCODEVALUE,
@@ -1672,8 +1727,8 @@ _PLUTUS = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=2607,
-  serialized_end=3497,
+  serialized_start=2710,
+  serialized_end=3666,
   methods=[
   _descriptor.MethodDescriptor(
     name='NewCardToken',
@@ -1685,9 +1740,18 @@ _PLUTUS = _descriptor.ServiceDescriptor(
     serialized_options=None,
   ),
   _descriptor.MethodDescriptor(
+    name='NewCardTokenFromNative',
+    full_name='Plutus.NewCardTokenFromNative',
+    index=1,
+    containing_service=None,
+    input_type=_NEWCARDTOKENNATIVEREQUEST,
+    output_type=_CARDTOKEN,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
     name='GetCardTokenOfCustomerByID',
     full_name='Plutus.GetCardTokenOfCustomerByID',
-    index=1,
+    index=2,
     containing_service=None,
     input_type=_CARDTOKENBYID,
     output_type=_CARDTOKEN,
@@ -1696,7 +1760,7 @@ _PLUTUS = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetCardTokenOfCustomerByCustomer',
     full_name='Plutus.GetCardTokenOfCustomerByCustomer',
-    index=2,
+    index=3,
     containing_service=None,
     input_type=_CARDTOKENBYCUSTOMER,
     output_type=_CARDTOKEN,
@@ -1705,7 +1769,7 @@ _PLUTUS = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='DeleteCardToken',
     full_name='Plutus.DeleteCardToken',
-    index=3,
+    index=4,
     containing_service=None,
     input_type=_CARDTOKENBYID,
     output_type=_CARDTOKEN,
@@ -1714,7 +1778,7 @@ _PLUTUS = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='NewFastSale',
     full_name='Plutus.NewFastSale',
-    index=4,
+    index=5,
     containing_service=None,
     input_type=_FASTSALE,
     output_type=_SALE,
@@ -1723,7 +1787,7 @@ _PLUTUS = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='NewSale',
     full_name='Plutus.NewSale',
-    index=5,
+    index=6,
     containing_service=None,
     input_type=_NEWSALEREQUEST,
     output_type=_SALE,
@@ -1732,7 +1796,7 @@ _PLUTUS = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetSale',
     full_name='Plutus.GetSale',
-    index=6,
+    index=7,
     containing_service=None,
     input_type=_SALEIDREQUEST,
     output_type=_SALE,
@@ -1741,7 +1805,7 @@ _PLUTUS = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='UpdateSale',
     full_name='Plutus.UpdateSale',
-    index=7,
+    index=8,
     containing_service=None,
     input_type=_SALEUPDATEREQUEST,
     output_type=_SALE,
@@ -1750,7 +1814,7 @@ _PLUTUS = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='DeliverSaleReceipt',
     full_name='Plutus.DeliverSaleReceipt',
-    index=8,
+    index=9,
     containing_service=None,
     input_type=_DELIVERSALEREQUEST,
     output_type=_DELIVERCHANNELRESPONSE,
@@ -1759,7 +1823,7 @@ _PLUTUS = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='ChargeSaleByID',
     full_name='Plutus.ChargeSaleByID',
-    index=9,
+    index=10,
     containing_service=None,
     input_type=_SALEIDREQUEST,
     output_type=_CHARGETOKEN,
@@ -1768,7 +1832,7 @@ _PLUTUS = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='ChargeSaleWithNativeToken',
     full_name='Plutus.ChargeSaleWithNativeToken',
-    index=10,
+    index=11,
     containing_service=None,
     input_type=_CHARGEWITHNATIVETOKEN,
     output_type=_CHARGETOKEN,
@@ -1777,7 +1841,7 @@ _PLUTUS = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='DoneSale',
     full_name='Plutus.DoneSale',
-    index=11,
+    index=12,
     containing_service=None,
     input_type=_SALEIDREQUEST,
     output_type=_SALE,
@@ -1786,7 +1850,7 @@ _PLUTUS = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='CreateDiscountCode',
     full_name='Plutus.CreateDiscountCode',
-    index=12,
+    index=13,
     containing_service=None,
     input_type=_DISCOUNTCODEREQUEST,
     output_type=_DISCOUNTCODE,
@@ -1795,7 +1859,7 @@ _PLUTUS = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetDiscountCode',
     full_name='Plutus.GetDiscountCode',
-    index=13,
+    index=14,
     containing_service=None,
     input_type=_DISCOUNTCODEID,
     output_type=_DISCOUNTCODE,
@@ -1804,7 +1868,7 @@ _PLUTUS = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='ValidateDiscountCode',
     full_name='Plutus.ValidateDiscountCode',
-    index=14,
+    index=15,
     containing_service=None,
     input_type=_DISCOUNTCODEVALUE,
     output_type=_DISCOUNTCODEEXIST,
@@ -1813,7 +1877,7 @@ _PLUTUS = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetActiveDiscountCodes',
     full_name='Plutus.GetActiveDiscountCodes',
-    index=15,
+    index=16,
     containing_service=None,
     input_type=_ACTIVEDISCOUNTSREQUEST,
     output_type=_DISCOUNTCODES,
@@ -1822,7 +1886,7 @@ _PLUTUS = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='DeleteDiscountCode',
     full_name='Plutus.DeleteDiscountCode',
-    index=16,
+    index=17,
     containing_service=None,
     input_type=_DISCOUNTCODEID,
     output_type=_DISCOUNTCODES,

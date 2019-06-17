@@ -5,6 +5,11 @@ require 'google/protobuf'
 
 require 'google/protobuf/timestamp_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
+  add_message "NewCardTokenNativeRequest" do
+    optional :token, :string, 1
+    optional :customer, :message, 2, "Customer"
+    optional :type, :enum, 3, "CardTokenType"
+  end
   add_message "DiscountCodeValue" do
     optional :value, :string, 1
     optional :customerID, :string, 2
@@ -163,6 +168,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
   end
 end
 
+NewCardTokenNativeRequest = Google::Protobuf::DescriptorPool.generated_pool.lookup("NewCardTokenNativeRequest").msgclass
 DiscountCodeValue = Google::Protobuf::DescriptorPool.generated_pool.lookup("DiscountCodeValue").msgclass
 DiscountCodeExist = Google::Protobuf::DescriptorPool.generated_pool.lookup("DiscountCodeExist").msgclass
 ChargeWithNativeToken = Google::Protobuf::DescriptorPool.generated_pool.lookup("ChargeWithNativeToken").msgclass

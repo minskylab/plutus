@@ -11,6 +11,11 @@ func (e *SalesEngine) NewCardToken(context.Context, *plutus.NewCardTokenRequest)
 	panic("unimplemented")
 }
 
+// NewCardTokenFromNative implements a grpc plutus service
+func (e *SalesEngine) NewCardTokenFromNative(context.Context, *plutus.NewCardTokenNativeRequest) (*plutus.CardToken, error) {
+	panic("unimplemented")
+}
+
 // GetCardTokenOfCustomerByID implements a grpc plutus service
 func (e *SalesEngine) GetCardTokenOfCustomerByID(context.Context, *plutus.CardTokenByID) (*plutus.CardToken, error) {
 	panic("unimplemented")
