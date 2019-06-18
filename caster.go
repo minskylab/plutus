@@ -61,16 +61,29 @@ func encodedCardDetailsFromProto(details *plutus.EncodedCardDetails) EncodedCard
 	}
 }
 
-func cardTokenToProto(token CardToken) *plutus.CardToken {
-	createdAt, _ := ptypes.TimestampProto(token.CreatedAt)
+func cardTokenTypeToProto(cardType CardTokenType) plutus.CardTokenType {
 	t := plutus.CardTokenType_ONEUSE
-	if token.Type == RecurrentToken {
+	if cardType == RecurrentToken {
 		t = plutus.CardTokenType_RECURRENT
 	}
+	return t
+}
+
+func cardTokenTypeFromProto(cardType plutus.CardTokenType) CardTokenType {
+	t := OneUseToken
+	if cardType == plutus.CardTokenType_RECURRENT {
+		t = RecurrentToken
+	}
+	return t
+}
+
+func cardTokenToProto(token CardToken) *plutus.CardToken {
+	createdAt, _ := ptypes.TimestampProto(token.CreatedAt)
+
 	return &plutus.CardToken{
 		CreatedAt: createdAt,
 		Id:        token.ID,
-		Type:      t,
+		Type:      cardTokenTypeToProto(token.Type),
 		Value:     token.Value,
 		WithCard:  encodedCardDetailsToProto(token.WithCard),
 	}
@@ -78,14 +91,11 @@ func cardTokenToProto(token CardToken) *plutus.CardToken {
 
 func cardTokenFromProto(token *plutus.CardToken) CardToken {
 	createdAt, _ := ptypes.Timestamp(token.CreatedAt)
-	t := OneUseToken
-	if token.Type == plutus.CardTokenType_RECURRENT {
-		t = RecurrentToken
-	}
+
 	return CardToken{
 		CreatedAt: createdAt,
 		ID:        token.Id,
-		Type:      t,
+		Type:      cardTokenTypeFromProto(token.Type),
 		Value:     token.Value,
 		WithCard:  encodedCardDetailsFromProto(token.WithCard),
 	}

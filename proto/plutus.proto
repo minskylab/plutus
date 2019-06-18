@@ -16,7 +16,7 @@ service Plutus {
 
   rpc DeliverSaleReceipt(DeliverSaleRequest) returns (DeliverChannelResponse);
 
-  rpc ChargeSaleByID(SaleIDRequest) returns (ChargeToken);
+  rpc ChargeSaleByID(ChargeSaleRequest) returns (ChargeToken);
   rpc ChargeSaleWithNativeToken(ChargeWithNativeToken) returns (ChargeToken);
 
   rpc DoneSale(SaleIDRequest) returns (Sale);
@@ -26,6 +26,12 @@ service Plutus {
   rpc ValidateDiscountCode(DiscountCodeValue) returns (DiscountCodeExist);
   rpc GetActiveDiscountCodes(ActiveDiscountsRequest) returns (DiscountCodes);
   rpc DeleteDiscountCode(DiscountCodeID) returns (DiscountCodes);
+}
+
+message ChargeSaleRequest {
+  string saleID  = 1;
+  string cardTokenID = 2;
+  string details = 3;
 }
 
 message NewCardTokenNativeRequest {
@@ -44,6 +50,7 @@ message DiscountCodeExist { bool ok = 1; }
 message ChargeWithNativeToken {
   string saleID = 1;
   string nativeToken = 2;
+  string details = 3;
 }
 
 message DiscountCodes { repeated DiscountCode discounts = 1; }
@@ -111,7 +118,7 @@ message Customer {
   string id = 1;
   string email = 2;
   string name = 3;
-
+  string person = 6;
   string phone = 4;
 
   Location location = 5;
