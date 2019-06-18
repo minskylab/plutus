@@ -4,10 +4,11 @@ bridge:
   public_key: "YOUR PUBLIC KEY HERE"
   private_key: "YOUR PRIVATE KEY HERE"
 delivery:
-  - smtp:
-      endpoint: "Your smtp endpoint"
-      user: "<MAILJET_USERNAME>"
-      password: "<MAILJET_PASSWORD>"
-  - thermal:
-      ip: "Your thermal printer ip"
-      secret: "Your secret"
+  smtp:
+    host: "Your smtp endpoint"
+    user: "<MAILJET_USERNAME>"
+    password: "<MAILJET_PASSWORD>"
+    from: "example@example.com"
+  thermal:
+    host: "Your thermal printer ip"
+    passwordt: "Your secret"

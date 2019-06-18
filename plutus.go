@@ -5,7 +5,8 @@ type ID string
 
 // SalesEngine is the core engine of plutus
 type SalesEngine struct {
-	Company    *Company
-	Bridge     *PaymentBridge
-	Repository *Repository
+	Company          *Company
+	Bridge           PaymentBridge
+	Repository       Repository
+	DeliveryChannels []DeliveryChannel
 }
