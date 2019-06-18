@@ -45,10 +45,14 @@ func customerFromProto(customer *plutus.Customer) Customer {
 }
 
 func encodedCardDetailsToProto(details EncodedCardDetails) *plutus.EncodedCardDetails {
+	var customer *plutus.Customer
+	if details.Customer != nil {
+		customer = customerToProto(*details.Customer)
+	}
 	return &plutus.EncodedCardDetails{
 		Number:         details.Number,
 		ExpirationYear: int32(details.ExpirationYear),
-		Customer:       customerToProto(*details.Customer),
+		Customer:       customer,
 	}
 }
 
