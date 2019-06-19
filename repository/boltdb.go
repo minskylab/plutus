@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/asdine/storm"
 	"github.com/bregydoc/plutus"
@@ -216,10 +217,10 @@ func (repo *BoltRepository) UpdateChargeToken(ID string, updatePayload plutus.Ch
 	}
 
 	fmt.Println("[WARNING] You can not to update a charge")
-	err = repo.db.From("charges").Update(charge)
-	if err != nil {
-		return nil, err
-	}
+	// err = repo.db.From("charges").Update(charge)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	return charge, nil
 }
@@ -266,7 +267,43 @@ func (repo *BoltRepository) GetSale(ID string) (*plutus.Sale, error) {
 
 // UpdateSale implements a plutus repository
 func (repo *BoltRepository) UpdateSale(ID string, updatePayload plutus.Sale) (*plutus.Sale, error) {
-	panic("unimplemented")
+	sale, err := repo.GetSale(ID)
+	if err != nil {
+		return nil, err
+	}
+
+	if updatePayload.CardToken != nil {
+		sale.CardToken = updatePayload.CardToken
+	}
+
+	if updatePayload.Charge != nil {
+		sale.Charge = updatePayload.Charge
+	}
+
+	if updatePayload.CurrencyToPay != nil {
+		sale.CurrencyToPay = updatePayload.CurrencyToPay
+	}
+
+	// if updatePayload.Customer != nil {
+	// 	sale.Customer = updatePayload.Customer
+	// }
+
+	if updatePayload.Products != nil {
+		sale.Products = updatePayload.Products
+	}
+
+	if updatePayload.State != "" {
+		sale.State = updatePayload.State
+	}
+
+	sale.UpdatedAt = time.Now()
+
+	err = repo.db.From("sales").Update(sale)
+	if err != nil {
+		return nil, err
+	}
+
+	return sale, nil
 }
 
 // RemoveSale implements a plutus repository

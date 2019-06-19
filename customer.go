@@ -2,10 +2,11 @@ package plutus
 
 // Location is a set of fields to localize to customer
 type Location struct {
-	Address string
-	City    string
-	State   string
-	ZIP     string
+	Address     string
+	City        string
+	State       string
+	CountryCode string
+	ZIP         string
 }
 
 // Customer represents a customer minimal information

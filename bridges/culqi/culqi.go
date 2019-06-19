@@ -6,6 +6,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/asdine/storm"
+
 	"github.com/bregydoc/plutus"
 )
 
@@ -15,10 +17,16 @@ type PlutusBridge struct {
 	secretKey  string
 	env        string
 	apiVersion string
+	repo       *storm.DB
 }
 
 // NewPlutusBridge returns a new culqi bridge instance
-func NewPlutusBridge(publicKey, secretKey string) *PlutusBridge {
+func NewPlutusBridge(publicKey, secretKey string) (*PlutusBridge, error) {
+	var err error
+	repo, err := storm.Open("culqi-helper.db")
+	if err != nil {
+		return nil, err
+	}
 	env := "prod"
 	if strings.Contains(secretKey, "test") {
 		env = "test"
@@ -28,7 +36,8 @@ func NewPlutusBridge(publicKey, secretKey string) *PlutusBridge {
 		secretKey:  secretKey,
 		env:        env,
 		apiVersion: "2",
-	}
+		repo:       repo,
+	}, nil
 }
 
 // NewToken returns a new token of your card, that is an implementation of plutus bridge
@@ -44,10 +53,21 @@ func (bridge *PlutusBridge) NewToken(details plutus.CardDetails, kind plutus.Car
 			return nil, fmt.Errorf("[from culqi] %s", err.Error())
 		}
 
+		encodedNumberCard := ""
+		if len(details.Number) >= 4 {
+			encodedNumberCard = details.Number[len(details.Number)-4:]
+			encodedNumberCard = strings.Repeat("*", len(details.Number)-4) + encodedNumberCard
+		}
+
 		return &plutus.CardToken{
 			CreatedAt: time.Now(),
 			Type:      kind,
 			Value:     token.Value,
+			WithCard: plutus.EncodedCardDetails{
+				Number:         encodedNumberCard,
+				Customer:       details.Customer,
+				ExpirationYear: details.Expiration.Year,
+			},
 		}, nil
 
 	case plutus.RecurrentToken:

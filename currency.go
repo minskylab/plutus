@@ -25,7 +25,7 @@ var PEN = &Currency{
 
 // USD represents an American Dollar
 var USD = &Currency{
-	Multiplier: 364,
+	Multiplier: 100,
 	Name:       "USD",
 	Symbol:     "$",
 	// Base:       &UNIT,

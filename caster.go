@@ -24,12 +24,17 @@ func locationFromProto(location *plutus.Location) Location {
 }
 
 func customerToProto(customer Customer) *plutus.Customer {
+	var loc Location
+	if customer.Location != nil {
+		loc = *customer.Location
+	}
 	return &plutus.Customer{
 		Id:       customer.ID,
 		Email:    customer.Email,
 		Name:     customer.Name,
 		Phone:    customer.Phone,
-		Location: locationToProto(*customer.Location),
+		Person:   customer.Person,
+		Location: locationToProto(loc),
 	}
 }
 
@@ -40,6 +45,7 @@ func customerFromProto(customer *plutus.Customer) Customer {
 		Email:    customer.Email,
 		Name:     customer.Name,
 		Phone:    customer.Phone,
+		Person:   customer.Person,
 		Location: &loc,
 	}
 }
@@ -217,9 +223,15 @@ func saleStateFromProto(state plutus.SaleState) SaleState {
 
 func discountUseRecordToProto(record DiscountUseRecord) *plutus.DiscountUseRecord {
 	at, _ := ptypes.TimestampProto(record.At)
+
+	var by Customer
+	if record.By != nil {
+		by = *record.By
+	}
+
 	return &plutus.DiscountUseRecord{
 		At: at,
-		By: customerToProto(*record.By),
+		By: customerToProto(by),
 	}
 }
 
@@ -278,6 +290,12 @@ func discountFromProto(discount *plutus.Discount) Discount {
 func discountCodeToProto(code DiscountCode) *plutus.DiscountCode {
 	start, _ := ptypes.TimestampProto(code.Start)
 	end, _ := ptypes.TimestampProto(code.End)
+
+	var value Discount
+	if code.Value != nil {
+		value = *code.Value
+	}
+
 	return &plutus.DiscountCode{
 		Id:      code.ID,
 		Code:    code.Code,
@@ -285,7 +303,7 @@ func discountCodeToProto(code DiscountCode) *plutus.DiscountCode {
 		Start:   start,
 		End:     end,
 		Uses:    discountUsesRecordToProto(code.Uses),
-		Value:   discountToProto(*code.Value),
+		Value:   discountToProto(value),
 	}
 }
 
@@ -324,14 +342,30 @@ func saleToProto(sale Sale) *plutus.Sale {
 	createdAt, _ := ptypes.TimestampProto(sale.CreatedAt)
 	updatedAt, _ := ptypes.TimestampProto(sale.UpdatedAt)
 
+	var token CardToken
+	if sale.CardToken != nil {
+		token = *sale.CardToken
+	}
+	var charge ChargeToken
+	if sale.Charge != nil {
+		charge = *sale.Charge
+	}
+	var customer Customer
+	if sale.Customer != nil {
+		customer = *sale.Customer
+	}
+	currencyToPay := ""
+	if sale.CurrencyToPay != nil {
+		currencyToPay = sale.CurrencyToPay.Name
+	}
 	return &plutus.Sale{
 		Id:            sale.ID,
-		CardToken:     cardTokenToProto(*sale.CardToken),
-		Charge:        chargeTokenToProto(*sale.Charge),
+		CardToken:     cardTokenToProto(token),
+		Charge:        chargeTokenToProto(charge),
 		CreatedAt:     createdAt,
 		UpdatedAt:     updatedAt,
-		Customer:      customerToProto(*sale.Customer),
-		CurrencyToPay: sale.CurrencyToPay.Name,
+		Customer:      customerToProto(customer),
+		CurrencyToPay: currencyToPay,
 		Products:      productsToProto(sale.Products),
 		State:         saleStateToProto(sale.State),
 		DiscountCodes: discountCodesToProto(sale.DiscountCodes),

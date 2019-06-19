@@ -2,7 +2,6 @@ package culqi
 
 import (
 	"errors"
-	"fmt"
 	"strings"
 
 	"github.com/bregydoc/plutus"
@@ -22,23 +21,32 @@ func (q *PlutusBridge) generateNewRecurrentToken(token string, details plutus.Ca
 
 	var firstName, lastName = chunks[0], chunks[1]
 
+	cCode := "PE"
+	if details.Customer.Location.CountryCode != "" {
+		cCode = details.Customer.Location.CountryCode
+	}
+
+	if details.Customer.Location.ZIP != "" && len(details.Customer.Location.ZIP) == 2 {
+		cCode = details.Customer.Location.ZIP
+	}
+
 	customerID, err := q.createCustomer(&CustomerInfo{
 		FirstName:   firstName,
 		LastName:    lastName,
 		Address:     details.Customer.Location.Address,
 		AddressCity: details.Customer.Location.City,
-		CountryCode: details.Customer.Location.ZIP,
+		CountryCode: cCode,
 		Email:       details.Customer.Email,
 		PhoneNumber: details.Customer.Phone,
 	})
 
 	if err != nil {
-		return nil, fmt.Errorf("[from culqi] %s", err.Error())
+		return nil, err
 	}
 
 	card, err := q.createCard(customerID, token)
 	if err != nil {
-		return nil, fmt.Errorf("[from culqi] %s", err.Error())
+		return nil, err
 	}
 
 	return card, nil

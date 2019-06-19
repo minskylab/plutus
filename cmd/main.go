@@ -28,7 +28,10 @@ func main() {
 
 	switch config.Bridge.Backend {
 	case "culqi":
-		bridge = culqi.NewPlutusBridge(config.Bridge.PublicKey, config.Bridge.PrivateKey)
+		bridge, err = culqi.NewPlutusBridge(config.Bridge.PublicKey, config.Bridge.PrivateKey)
+		if err != nil {
+			panic(err)
+		}
 	case "stripe":
 		panic("unimplemented bridge backend (WIP)")
 	case "visanet":

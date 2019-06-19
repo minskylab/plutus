@@ -183,7 +183,15 @@ func (e *SalesEngine) ChargeSaleByID(c context.Context, p *plutus.ChargeSaleRequ
 		sale.Customer = customer
 	}
 
-	currency := sale.CurrencyToPay
+	if len(sale.Products) == 0 {
+		return nil, errors.New("you need to indicate at least one product")
+	}
+
+	currency := sale.Products[0].Cost.Currency
+	if sale.CurrencyToPay != nil {
+		currency = sale.CurrencyToPay
+	}
+
 	total := 0.0
 	for _, product := range sale.Products {
 		if currency.Name != product.Cost.Currency.Name {
@@ -205,6 +213,11 @@ func (e *SalesEngine) ChargeSaleByID(c context.Context, p *plutus.ChargeSaleRequ
 		ExtraInfo: sale.Customer,
 	})
 
+	if err != nil {
+		return nil, err
+	}
+
+	charge, err = e.Repository.SaveChargeToken(charge)
 	if err != nil {
 		return nil, err
 	}
@@ -235,7 +248,15 @@ func (e *SalesEngine) ChargeSaleWithNativeToken(c context.Context, p *plutus.Cha
 		sale.Customer = customer
 	}
 
-	currency := sale.CurrencyToPay
+	if len(sale.Products) == 0 {
+		return nil, errors.New("you need to indicate at least one product")
+	}
+
+	currency := sale.Products[0].Cost.Currency
+	if sale.CurrencyToPay != nil {
+		currency = sale.CurrencyToPay
+	}
+
 	total := 0.0
 	for _, product := range sale.Products {
 		if currency.Name != product.Cost.Currency.Name {
@@ -271,6 +292,11 @@ func (e *SalesEngine) ChargeSaleWithNativeToken(c context.Context, p *plutus.Cha
 		ExtraInfo: sale.Customer,
 	})
 
+	if err != nil {
+		return nil, err
+	}
+
+	charge, err = e.Repository.SaveChargeToken(charge)
 	if err != nil {
 		return nil, err
 	}

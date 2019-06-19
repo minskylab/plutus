@@ -9,18 +9,6 @@ import (
 
 const baseURL = "https://api.culqi.com/v2"
 
-// CustomerInfo is an customer object of Culqi Service
-type CustomerInfo struct {
-	FirstName   string            `json:"first_name"`
-	LastName    string            `json:"last_name"`
-	Email       string            `json:"email"`
-	Address     string            `json:"address"`
-	AddressCity string            `json:"address_city"`
-	CountryCode string            `json:"country_code"`
-	PhoneNumber string            `json:"phone_number"`
-	Metadata    map[string]string `json:"metadata"`
-}
-
 // Card represents the culqi response to /card endpoint
 type Card struct {
 	ID         string `json:"id"`
@@ -37,46 +25,12 @@ type Card struct {
 	} `json:"token"`
 }
 
-type customerCreateResponse struct {
-	ID string `json:"id"`
-}
-
 type cardCreateInput struct {
 	CustomerID string `json:"customer_id"`
 	TokenID    string `json:"token_id"`
 }
 
-func (q *PlutusBridge) createCustomer(info *CustomerInfo) (string, error) {
-	url := baseURL + "/customers"
-	buf := bytes.NewBuffer([]byte{})
-	err := json.NewEncoder(buf).Encode(info)
-	if err != nil {
-		return "", nil
-	}
-
-	req, err := http.NewRequest("POST", url, buf)
-	if err != nil {
-		return "", err
-	}
-
-	req.Header.Set("Content-type", "application/json")
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", q.secretKey))
-
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return "", err
-	}
-
-	customer := new(customerCreateResponse)
-	err = json.NewDecoder(resp.Body).Decode(customer)
-	if err != nil {
-		return "", err
-	}
-
-	return customer.ID, nil
-}
-
-func (q *PlutusBridge) createCard(customerID, tokenID string) (*Card, error) {
+func (bridge *PlutusBridge) createCard(customerID, tokenID string) (*Card, error) {
 	url := baseURL + "/cards"
 	buf := bytes.NewBuffer([]byte{})
 	err := json.NewEncoder(buf).Encode(cardCreateInput{
@@ -93,7 +47,7 @@ func (q *PlutusBridge) createCard(customerID, tokenID string) (*Card, error) {
 	}
 
 	req.Header.Set("Content-type", "application/json")
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", q.secretKey))
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", bridge.secretKey))
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -109,7 +63,7 @@ func (q *PlutusBridge) createCard(customerID, tokenID string) (*Card, error) {
 	return card, nil
 }
 
-func (q *PlutusBridge) getCard(id string) (*Card, error) {
+func (bridge *PlutusBridge) getCard(id string) (*Card, error) {
 	url := baseURL + fmt.Sprintf("/cards/%s", id)
 
 	req, err := http.NewRequest("GET", url, nil)
@@ -118,7 +72,7 @@ func (q *PlutusBridge) getCard(id string) (*Card, error) {
 	}
 
 	req.Header.Set("Content-type", "application/json")
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", q.secretKey))
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", bridge.secretKey))
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {

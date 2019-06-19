@@ -55,7 +55,12 @@ func (q *PlutusBridge) executeCharge(source plutus.CardToken, params plutus.Char
 	antifraud := antifraudDetails{}
 	if params.ExtraInfo != nil {
 		chunks := strings.Split(params.ExtraInfo.Name, " ")
-		var firstName, lastName string = chunks[0], chunks[1]
+		var firstName, lastName string = "", ""
+
+		if len(chunks) >= 2 {
+			firstName, lastName = chunks[0], chunks[1]
+		}
+
 		antifraud.FirstName = firstName
 		antifraud.LastName = lastName
 		phone, _ := strconv.Atoi(params.ExtraInfo.Phone)
@@ -67,11 +72,13 @@ func (q *PlutusBridge) executeCharge(source plutus.CardToken, params plutus.Char
 		}
 	}
 
+	amount := params.Amount * float64(params.Currency.Multiplier)
+
 	charge := &chargeParams{
 		Token:            source.Value,
 		Email:            params.Email,
 		Description:      params.Details,
-		Amount:           int(params.Amount),
+		Amount:           int(amount),
 		AntifraudDetails: antifraud,
 		CurrencyCode:     params.Currency.Name,
 	}
