@@ -84,15 +84,23 @@ func (smtp *Deliver) SendSaleReceipt(from *plutus.Company, sale *plutus.Sale, me
 		meta = metadata[0]
 	}
 
+	// * If subject exists in metadata
 	if subject, ok := meta["subject"].(string); ok {
 		m.SetHeader("Subject", subject)
 	} else {
 		m.SetHeader("Subject", "Your receipt are ready")
 	}
 
-	temp, err := ioutil.ReadFile(smtp.templateFile)
-	if err != nil {
-		return err
+	var temp []byte
+	// * If template data is pass throw metadata
+	if template, ok := meta["template"].(string); ok {
+		temp = []byte(template)
+	} else {
+		var err error
+		temp, err = ioutil.ReadFile(smtp.templateFile)
+		if err != nil {
+			return err
+		}
 	}
 
 	body := bytes.NewBuffer(temp)
@@ -107,7 +115,7 @@ func (smtp *Deliver) SendSaleReceipt(from *plutus.Company, sale *plutus.Sale, me
 		Sale:    sale,
 	}
 
-	err = template.New("mail_template").Execute(body, data)
+	err := template.New("mail_template").Execute(body, data)
 	if err != nil {
 		return err
 	}

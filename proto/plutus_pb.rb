@@ -5,6 +5,26 @@ require 'google/protobuf'
 
 require 'google/protobuf/timestamp_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
+  add_message "SalesFilterRequest" do
+    optional :page, :int32, 4
+    optional :itemsPerPage, :int32, 3
+    optional :from, :message, 1, "google.protobuf.Timestamp"
+    optional :to, :message, 2, "google.protobuf.Timestamp"
+    optional :byCardTokenID, :string, 6
+    optional :byChargeTokenID, :string, 7
+    repeated :byStates, :enum, 5, "SaleState"
+  end
+  add_message "Sales" do
+    repeated :sales, :message, 1, "Sale"
+    optional :total, :int32, 2
+    optional :page, :int32, 3
+    optional :next, :int32, 4
+  end
+  add_message "ChargeSaleRequest" do
+    optional :saleID, :string, 1
+    optional :cardTokenID, :string, 2
+    optional :details, :string, 3
+  end
   add_message "NewCardTokenNativeRequest" do
     optional :token, :string, 1
     optional :customer, :message, 2, "Customer"
@@ -20,6 +40,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
   add_message "ChargeWithNativeToken" do
     optional :saleID, :string, 1
     optional :nativeToken, :string, 2
+    optional :details, :string, 3
   end
   add_message "DiscountCodes" do
     repeated :discounts, :message, 1, "DiscountCode"
@@ -37,19 +58,13 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     optional :updateData, :message, 2, "Sale"
   end
   add_message "DeliverSaleRequest" do
-    optional :sale, :message, 1, "SaleIDRequest"
-    optional :channel, :message, 2, "DeliveryChannel"
+    optional :saleID, :string, 1
+    optional :channelName, :string, 2
+    map :metadata, :string, :string, 3
   end
   add_message "DeliverChannelResponse" do
     optional :message, :string, 1
     optional :code, :string, 2
-  end
-  add_message "DeliveryChannel" do
-    oneof :identification do
-      optional :id, :string, 1
-      optional :name, :string, 2
-      optional :code, :string, 3
-    end
   end
   add_message "SaleIDRequest" do
     optional :id, :string, 1
@@ -83,6 +98,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     optional :id, :string, 1
     optional :email, :string, 2
     optional :name, :string, 3
+    optional :person, :string, 6
     optional :phone, :string, 4
     optional :location, :message, 5, "Location"
   end
@@ -168,6 +184,9 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
   end
 end
 
+SalesFilterRequest = Google::Protobuf::DescriptorPool.generated_pool.lookup("SalesFilterRequest").msgclass
+Sales = Google::Protobuf::DescriptorPool.generated_pool.lookup("Sales").msgclass
+ChargeSaleRequest = Google::Protobuf::DescriptorPool.generated_pool.lookup("ChargeSaleRequest").msgclass
 NewCardTokenNativeRequest = Google::Protobuf::DescriptorPool.generated_pool.lookup("NewCardTokenNativeRequest").msgclass
 DiscountCodeValue = Google::Protobuf::DescriptorPool.generated_pool.lookup("DiscountCodeValue").msgclass
 DiscountCodeExist = Google::Protobuf::DescriptorPool.generated_pool.lookup("DiscountCodeExist").msgclass
@@ -179,7 +198,6 @@ DiscountCodeRequest = Google::Protobuf::DescriptorPool.generated_pool.lookup("Di
 SaleUpdateRequest = Google::Protobuf::DescriptorPool.generated_pool.lookup("SaleUpdateRequest").msgclass
 DeliverSaleRequest = Google::Protobuf::DescriptorPool.generated_pool.lookup("DeliverSaleRequest").msgclass
 DeliverChannelResponse = Google::Protobuf::DescriptorPool.generated_pool.lookup("DeliverChannelResponse").msgclass
-DeliveryChannel = Google::Protobuf::DescriptorPool.generated_pool.lookup("DeliveryChannel").msgclass
 SaleIDRequest = Google::Protobuf::DescriptorPool.generated_pool.lookup("SaleIDRequest").msgclass
 FastSale = Google::Protobuf::DescriptorPool.generated_pool.lookup("FastSale").msgclass
 NewSaleRequest = Google::Protobuf::DescriptorPool.generated_pool.lookup("NewSaleRequest").msgclass

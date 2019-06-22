@@ -15,7 +15,7 @@ service Plutus {
   rpc GetSales(SalesFilterRequest) returns (Sales);
   rpc UpdateSale(SaleUpdateRequest) returns (Sale);
 
-  rpc DeliverSaleReceipt(DeliverSaleRequest) returns (DeliverChannelResponse);
+  rpc DeliverSale(DeliverSaleRequest) returns (DeliverChannelResponse);
 
   rpc ChargeSaleByID(ChargeSaleRequest) returns (ChargeToken);
   rpc ChargeSaleWithNativeToken(ChargeWithNativeToken) returns (ChargeToken);
@@ -47,7 +47,7 @@ message Sales {
 }
 
 message ChargeSaleRequest {
-  string saleID  = 1;
+  string saleID = 1;
   string cardTokenID = 2;
   string details = 3;
 }
@@ -85,22 +85,14 @@ message SaleUpdateRequest {
 }
 
 message DeliverSaleRequest {
-  SaleIDRequest sale = 1;
-  DeliveryChannel channel = 2;
+  string saleID = 1;
+  string channelName = 2;
+  map<string, string> metadata = 3;
 }
 
 message DeliverChannelResponse {
   string message = 1;
   string code = 2;
-}
-
-message DeliveryChannel {
-  oneof identification {
-    string id = 1;
-    string name = 2;
-    string code = 3;
-  }
-  map<string, string> metadata = 4;
 }
 
 message SaleIDRequest { string id = 1; }

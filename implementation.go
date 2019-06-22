@@ -161,9 +161,36 @@ func (e *SalesEngine) UpdateSale(c context.Context, p *plutus.SaleUpdateRequest)
 	return saleToProto(*sale), nil
 }
 
-// DeliverSaleReceipt implements a grpc plutus service
-func (e *SalesEngine) DeliverSaleReceipt(c context.Context, p *plutus.DeliverSaleRequest) (*plutus.DeliverChannelResponse, error) {
-	panic("unimplemented")
+func (e *SalesEngine) GetSales(c context.Context, p *plutus.SalesFilterRequest) (*plutus.Sales, error) {
+	return nil, errors.New("unimplemented")
+}
+
+// DeliverSale implements a grpc plutus service
+func (e *SalesEngine) DeliverSale(c context.Context, p *plutus.DeliverSaleRequest) (*plutus.DeliverChannelResponse, error) {
+	for _, ch := range e.DeliveryChannels {
+		if p.ChannelName == ch.Name() {
+			sale, err := e.Repository.GetSale(p.SaleID)
+			if err != nil {
+				return nil, err
+			}
+
+			meta := map[string]interface{}{}
+			for k, v := range p.Metadata {
+				meta[k] = v
+			}
+
+			err = ch.SendSaleReceipt(e.Company, sale, meta)
+			if err != nil {
+				return nil, err
+			}
+
+			return &plutus.DeliverChannelResponse{
+				Code:    "OK",
+				Message: "sale was sucessfully delivered",
+			}, nil
+		}
+	}
+	return nil, errors.New("delivery channel name not found or not registered")
 }
 
 // ChargeSaleByID implements a grpc plutus service
