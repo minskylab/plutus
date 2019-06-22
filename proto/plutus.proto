@@ -12,6 +12,7 @@ service Plutus {
   rpc NewFastSale(FastSale) returns (Sale);
   rpc NewSale(NewSaleRequest) returns (Sale);
   rpc GetSale(SaleIDRequest) returns (Sale);
+  rpc GetSales(SalesFilterRequest) returns (Sales);
   rpc UpdateSale(SaleUpdateRequest) returns (Sale);
 
   rpc DeliverSaleReceipt(DeliverSaleRequest) returns (DeliverChannelResponse);
@@ -26,6 +27,23 @@ service Plutus {
   rpc ValidateDiscountCode(DiscountCodeValue) returns (DiscountCodeExist);
   rpc GetActiveDiscountCodes(ActiveDiscountsRequest) returns (DiscountCodes);
   rpc DeleteDiscountCode(DiscountCodeID) returns (DiscountCodes);
+}
+
+message SalesFilterRequest {
+  int32 page = 4;
+  int32 itemsPerPage = 3;
+  google.protobuf.Timestamp from = 1;
+  google.protobuf.Timestamp to = 2;
+  string byCardTokenID = 6;
+  string byChargeTokenID = 7;
+  repeated SaleState byStates = 5;
+}
+
+message Sales {
+  repeated Sale sales = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 next = 4;
 }
 
 message ChargeSaleRequest {
@@ -82,6 +100,7 @@ message DeliveryChannel {
     string name = 2;
     string code = 3;
   }
+  map<string, string> metadata = 4;
 }
 
 message SaleIDRequest { string id = 1; }
