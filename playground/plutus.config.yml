@@ -9,6 +9,3 @@ delivery:
     user: "<MAILJET_USERNAME>"
     password: "<MAILJET_PASSWORD>"
     from: "example@example.com"
-  thermal:
-    host: "Your thermal printer ip"
-    passwordt: "Your secret"
