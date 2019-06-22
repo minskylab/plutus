@@ -19,9 +19,19 @@ type deliveryChannelConfig struct {
 	From     string `yaml:"from"`
 }
 
+type companyConfig struct {
+	Name         string                 `yaml:"name"`
+	OfficialWeb  string                 `yaml:"official_web"`
+	SupportEmail string                 `yaml:"support_email"`
+	SupportPhone string                 `yaml:"support_phone"`
+	Custom       map[string]interface{} `yaml:"custom"`
+}
+
 type configFile struct {
+	Port     int64                            `yaml:"port"`
 	Bridge   configBridge                     `yaml:"bridge"`
 	Delivery map[string]deliveryChannelConfig `yaml:"delivery"`
+	Company  companyConfig                    `yaml:"company"`
 }
 
 func readConfigFile(filename string) (*configFile, error) {

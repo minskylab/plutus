@@ -161,6 +161,7 @@ func (e *SalesEngine) UpdateSale(c context.Context, p *plutus.SaleUpdateRequest)
 	return saleToProto(*sale), nil
 }
 
+// GetSales implements a grpc plutus service
 func (e *SalesEngine) GetSales(c context.Context, p *plutus.SalesFilterRequest) (*plutus.Sales, error) {
 	return nil, errors.New("unimplemented")
 }

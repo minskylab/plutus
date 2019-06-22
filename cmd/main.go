@@ -63,16 +63,42 @@ func main() {
 		panic(err)
 	}
 
+	company := &plutus.Company{
+		Name: "Plutus Sales",
+	}
+
+	if config.Company.Name != "" {
+		company.Name = config.Company.Name
+	}
+
+	if config.Company.OfficialWeb != "" {
+		company.OfficialWeb = config.Company.OfficialWeb
+	}
+
+	if config.Company.Custom != nil {
+		company.Custom = config.Company.Custom
+	}
+
+	if config.Company.SupportEmail != "" {
+		company.Support.Email = config.Company.SupportEmail
+	}
+
+	if config.Company.SupportPhone != "" {
+		company.Support.Phone = config.Company.SupportPhone
+	}
+
 	engine := &plutus.SalesEngine{
 		Bridge:           bridge,
 		DeliveryChannels: channels,
 		Repository:       repo,
-		Company: &plutus.Company{
-			Name: "Plutus Sales",
-		},
+		Company:          company,
 	}
 
-	servicePort := 18000
+	var servicePort int64 = 18000
+
+	if config.Port != 0 {
+		servicePort = config.Port
+	}
 
 	// Check if we have TLS a secure connection
 	withTLS := true
