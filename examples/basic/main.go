@@ -17,7 +17,7 @@ func main() {
 
 	pl := plutus.NewPlutusClient(conn)
 
-	card, _ := pl.NewCardToken(context.Background(), &plutus.NewCardTokenRequest{
+	card, err := pl.NewCardToken(context.Background(), &plutus.NewCardTokenRequest{
 		Card: &plutus.Card{
 			Number:  "4111111111111111",
 			ExpMont: 9,
@@ -30,26 +30,38 @@ func main() {
 		Type: plutus.CardTokenType_ONEUSE,
 	})
 
+	if err != nil {
+		panic(err)
+	}
+
 	pp.Println(card.Id, card.Value)
 
-	sale, _ := pl.NewFastSale(context.Background(), &plutus.FastSale{
+	sale, err := pl.NewFastSale(context.Background(), &plutus.FastSale{
 		CustomerEmail: "bregymr@gmail.com",
 		Products: []*plutus.Product{
 			{Name: "Lima Pass 1", Details: "new kind of pass", Cost: &plutus.Cost{Amount: 42.0, Currency: "PEN"}},
 		},
 	})
 
+	if err != nil {
+		panic(err)
+	}
+
 	pp.Println(sale.Id, sale.State.String())
 
-	charge, _ := pl.ChargeSaleByID(context.Background(), &plutus.ChargeSaleRequest{
+	charge, err := pl.ChargeSaleByID(context.Background(), &plutus.ChargeSaleRequest{
 		SaleID:      sale.Id,
 		CardTokenID: card.Id,
 		Details:     "nothing",
 	})
 
+	if err != nil {
+		panic(err)
+	}
+
 	pp.Println(charge.Id, charge.Value)
 
-	sale, _ = pl.GetSale(context.Background(), &plutus.SaleIDRequest{Id: sale.Id})
+	sale, err = pl.GetSale(context.Background(), &plutus.SaleIDRequest{Id: sale.Id})
 
 	pp.Println(sale.Id, sale.State.String())
 
