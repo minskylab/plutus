@@ -1,8 +1,8 @@
 ---
 bridge:
   backend: culqi
-  public_key: "pk_test_POQJOT184VO1HOkc"
-  private_key: "sk_test_69v3QXAnjKN00uqK"
+  public_key: "..."
+  private_key: "..."
 delivery:
   smtp:
     host: "Your smtp endpoint"

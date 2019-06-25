@@ -1,0 +1,9 @@
+version: "3.7"
+
+services:
+  uculqi:
+    image: bregymr/plutus
+    ports:
+      - 18000:18000
+    volumes:
+      - ./plutus.config.yml:/go/src/app/plutus.config.yml
