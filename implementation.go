@@ -180,7 +180,7 @@ func (e *SalesEngine) DeliverSale(c context.Context, p *plutus.DeliverSaleReques
 				meta[k] = v
 			}
 
-			err = ch.SendSaleReceipt(e.Company, sale, meta)
+			err = ch.SendSale(e.Company, sale, meta)
 			if err != nil {
 				return nil, err
 			}

@@ -61,8 +61,8 @@ func (smtp *Deliver) Name() string {
 	return "smtp"
 }
 
-// SendSaleReceipt implements a Plutus delivery channel
-func (smtp *Deliver) SendSaleReceipt(from *plutus.Company, sale *plutus.Sale, metadata ...map[string]interface{}) error {
+// SendSale implements a Plutus delivery channel
+func (smtp *Deliver) SendSale(from *plutus.Company, sale *plutus.Sale, metadata ...map[string]interface{}) error {
 	m := mail.NewMessage()
 	if smtp.from != "" {
 		m.SetHeader("From", smtp.from)
@@ -125,7 +125,7 @@ func (smtp *Deliver) SendSaleReceipt(from *plutus.Company, sale *plutus.Sale, me
 	return smtp.dialer.DialAndSend(m)
 }
 
-// GetSaleRepresentation implements a Plutus delivery channel
-func (smtp *Deliver) GetSaleRepresentation(from *plutus.Company, sale *plutus.Sale, metadata ...map[string]interface{}) (*plutus.SaleRepresentation, error) {
+// SaleRepresentation implements a Plutus delivery channel
+func (smtp *Deliver) SaleRepresentation(from *plutus.Company, sale *plutus.Sale, metadata ...map[string]interface{}) (*plutus.SaleRepresentation, error) {
 	panic("unimplemented")
 }
