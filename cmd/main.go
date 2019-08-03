@@ -28,7 +28,7 @@ func main() {
 
 	switch config.Bridge.Backend {
 	case "culqi":
-		bridge, err = culqi.NewPlutusBridge(config.Bridge.PublicKey, config.Bridge.PrivateKey)
+		bridge, err = culqi.NewBridge(config.Bridge.PublicKey, config.Bridge.PrivateKey)
 		if err != nil {
 			panic(err)
 		}
