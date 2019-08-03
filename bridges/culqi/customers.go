@@ -24,11 +24,11 @@ type customerCreateResponse struct {
 	ID string `json:"id"`
 }
 
-func (bridge *PlutusBridge) saveCustomerTokenWithEmail(email, customerToken string) error {
+func (bridge *Bridge) saveCustomerTokenWithEmail(email, customerToken string) error {
 	return bridge.repo.Set("customers", email, customerToken)
 }
 
-func (bridge *PlutusBridge) getCustomerTokenIfExist(email string) string {
+func (bridge *Bridge) getCustomerTokenIfExist(email string) string {
 	var customerToken string
 	err := bridge.repo.Get("customers", email, &customerToken)
 	if err != nil {
@@ -37,7 +37,7 @@ func (bridge *PlutusBridge) getCustomerTokenIfExist(email string) string {
 	return customerToken
 }
 
-func (bridge *PlutusBridge) createCustomer(info *CustomerInfo) (string, error) {
+func (bridge *Bridge) createCustomer(info *CustomerInfo) (string, error) {
 	url := baseURL + "/customers"
 	buf := bytes.NewBuffer([]byte{})
 	err := json.NewEncoder(buf).Encode(info)

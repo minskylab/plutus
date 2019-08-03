@@ -8,7 +8,7 @@ import (
 )
 
 // tokenID: token generaed by culqi, from frontend or plutus ;)
-func (q *PlutusBridge) generateNewRecurrentToken(token string, details plutus.CardDetails) (*Card, error) {
+func (q *Bridge) generateNewRecurrentToken(token string, details plutus.CardDetails) (*Card, error) {
 	if details.Customer == nil {
 		return nil, errors.New("if you want to create a recurrent token, you need to include all customer details")
 	}

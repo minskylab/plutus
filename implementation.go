@@ -175,7 +175,7 @@ func (e *SalesEngine) DeliverSale(c context.Context, p *plutus.DeliverSaleReques
 				return nil, err
 			}
 
-			meta := map[string]interface{}{}
+			meta := map[string]string{}
 			for k, v := range p.Metadata {
 				meta[k] = v
 			}

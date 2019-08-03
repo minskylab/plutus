@@ -26,7 +26,7 @@ func encodeString(value string) string {
 	return base64.URLEncoding.EncodeToString([]byte(value))
 }
 
-func (c *PlutusBridge) generateCheckoutURL(params ...CheckoutParams) (string, error) {
+func (c *Bridge) generateCheckoutURL(params ...CheckoutParams) (string, error) {
 	ch, err := url.Parse(baseCheckoutURL)
 	if err != nil {
 		return "", err
@@ -54,7 +54,7 @@ func (c *PlutusBridge) generateCheckoutURL(params ...CheckoutParams) (string, er
 	return ch.String(), nil
 }
 
-func (c *PlutusBridge) getNewSessionID(params ...CheckoutParams) (string, error) {
+func (c *Bridge) getNewSessionID(params ...CheckoutParams) (string, error) {
 	uri, err := c.generateCheckoutURL(params...)
 	if err != nil {
 		return "", err

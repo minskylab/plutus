@@ -30,7 +30,7 @@ type cardCreateInput struct {
 	TokenID    string `json:"token_id"`
 }
 
-func (bridge *PlutusBridge) createCard(customerID, tokenID string) (*Card, error) {
+func (bridge *Bridge) createCard(customerID, tokenID string) (*Card, error) {
 	url := baseURL + "/cards"
 	buf := bytes.NewBuffer([]byte{})
 	err := json.NewEncoder(buf).Encode(cardCreateInput{
@@ -63,7 +63,7 @@ func (bridge *PlutusBridge) createCard(customerID, tokenID string) (*Card, error
 	return card, nil
 }
 
-func (bridge *PlutusBridge) getCard(id string) (*Card, error) {
+func (bridge *Bridge) getCard(id string) (*Card, error) {
 	url := baseURL + fmt.Sprintf("/cards/%s", id)
 
 	req, err := http.NewRequest("GET", url, nil)

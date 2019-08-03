@@ -33,7 +33,7 @@ type culqiError struct {
 	Message string `json:"merchant_message"`
 }
 
-func (c *PlutusBridge) getNewToken(payload tokenPayload, sessionID string) (*Token, error) {
+func (c *Bridge) getNewToken(payload tokenPayload, sessionID string) (*Token, error) {
 	buff := bytes.NewBufferString("")
 	err := json.NewEncoder(buff).Encode(payload)
 	if err != nil {
@@ -74,7 +74,7 @@ func (c *PlutusBridge) getNewToken(payload tokenPayload, sessionID string) (*Tok
 
 }
 
-func (c *PlutusBridge) generateNewOneUseToken(cardDetails plutus.CardDetails) (*Token, error) {
+func (c *Bridge) generateNewOneUseToken(cardDetails plutus.CardDetails) (*Token, error) {
 	sess, err := c.getNewSessionID()
 	if err != nil {
 		return nil, err

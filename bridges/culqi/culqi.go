@@ -11,8 +11,8 @@ import (
 	"github.com/bregydoc/plutus"
 )
 
-// PlutusBridge represents a bridge between your culqi service and your plutus service
-type PlutusBridge struct {
+// Bridge represents a bridge between your culqi service and your plutus service
+type Bridge struct {
 	publicKey  string
 	secretKey  string
 	env        string
@@ -20,8 +20,8 @@ type PlutusBridge struct {
 	repo       *storm.DB
 }
 
-// NewPlutusBridge returns a new culqi bridge instance
-func NewPlutusBridge(publicKey, secretKey string) (*PlutusBridge, error) {
+// NewBridge returns a new culqi bridge instance
+func NewBridge(publicKey, secretKey string) (*Bridge, error) {
 	var err error
 	repo, err := storm.Open("culqi-helper.db")
 	if err != nil {
@@ -31,7 +31,7 @@ func NewPlutusBridge(publicKey, secretKey string) (*PlutusBridge, error) {
 	if strings.Contains(secretKey, "test") {
 		env = "test"
 	}
-	return &PlutusBridge{
+	return &Bridge{
 		publicKey:  publicKey,
 		secretKey:  secretKey,
 		env:        env,
@@ -41,7 +41,7 @@ func NewPlutusBridge(publicKey, secretKey string) (*PlutusBridge, error) {
 }
 
 // NewToken returns a new token of your card, that is an implementation of plutus bridge
-func (bridge *PlutusBridge) NewToken(details plutus.CardDetails, kind plutus.CardTokenType) (*plutus.CardToken, error) {
+func (bridge *Bridge) NewToken(details plutus.CardDetails, kind plutus.CardTokenType) (*plutus.CardToken, error) {
 	if err := validateCardDetails(details); err != nil {
 		return nil, err
 	}
@@ -106,11 +106,11 @@ func (bridge *PlutusBridge) NewToken(details plutus.CardDetails, kind plutus.Car
 }
 
 // MakeCharge make a charge with culqi, that implements plutus bridge
-func (bridge *PlutusBridge) MakeCharge(source plutus.CardToken, params plutus.ChargeParams) (*plutus.ChargeToken, error) {
+func (bridge *Bridge) MakeCharge(source plutus.CardToken, params plutus.ChargeParams) (*plutus.ChargeToken, error) {
 	return bridge.executeCharge(source, params)
 }
 
 // MakeRefund ...
-func (bridge *PlutusBridge) MakeRefund(source plutus.ChargeToken, params plutus.RefundParams) (*plutus.RefundToken, error) {
+func (bridge *Bridge) MakeRefund(source plutus.ChargeToken, params plutus.RefundParams) (*plutus.RefundToken, error) {
 	return nil, errors.New("refund not implemented")
 }

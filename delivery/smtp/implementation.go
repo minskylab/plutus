@@ -62,7 +62,7 @@ func (smtp *Deliver) Name() string {
 }
 
 // SendSale implements a Plutus delivery channel
-func (smtp *Deliver) SendSale(from *plutus.Company, sale *plutus.Sale, metadata ...map[string]interface{}) error {
+func (smtp *Deliver) SendSale(from *plutus.Company, sale *plutus.Sale, metadata ...map[string]string) error {
 	m := mail.NewMessage()
 	if smtp.from != "" {
 		m.SetHeader("From", smtp.from)
@@ -79,13 +79,13 @@ func (smtp *Deliver) SendSale(from *plutus.Company, sale *plutus.Sale, metadata 
 
 	m.SetHeader("To", toEmail)
 
-	meta := map[string]interface{}{}
+	meta := map[string]string{}
 	if len(metadata) != 0 {
 		meta = metadata[0]
 	}
 
 	// * If subject exists in metadata
-	if subject, ok := meta["subject"].(string); ok {
+	if subject, ok := meta["subject"]; ok {
 		m.SetHeader("Subject", subject)
 	} else {
 		m.SetHeader("Subject", "Your receipt are ready")
@@ -93,7 +93,7 @@ func (smtp *Deliver) SendSale(from *plutus.Company, sale *plutus.Sale, metadata 
 
 	var temp []byte
 	// * If template data is pass throw metadata
-	if template, ok := meta["template"].(string); ok {
+	if template, ok := meta["template"]; ok {
 		temp = []byte(template)
 	} else {
 		var err error
@@ -126,6 +126,47 @@ func (smtp *Deliver) SendSale(from *plutus.Company, sale *plutus.Sale, metadata 
 }
 
 // SaleRepresentation implements a Plutus delivery channel
-func (smtp *Deliver) SaleRepresentation(from *plutus.Company, sale *plutus.Sale, metadata ...map[string]interface{}) (*plutus.SaleRepresentation, error) {
-	panic("unimplemented")
+func (smtp *Deliver) SaleRepresentation(from *plutus.Company, sale *plutus.Sale, metadata ...map[string]string) (*plutus.SaleRepresentation, error) {
+	meta := map[string]string{}
+	if len(metadata) != 0 {
+		meta = metadata[0]
+	}
+
+	var temp []byte
+
+	// * If template data is pass throw metadata
+	if template, ok := meta["template"]; ok {
+		temp = []byte(template)
+	} else {
+		var err error
+		temp, err = ioutil.ReadFile(smtp.templateFile)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	body := bytes.NewBuffer(temp)
+
+	type Data struct {
+		Company *plutus.Company
+		Sale    *plutus.Sale
+	}
+
+	data := Data{
+		Company: from,
+		Sale:    sale,
+	}
+
+	err := template.New("mail_template").Execute(body, data)
+	if err != nil {
+		return nil, err
+	}
+
+	return &plutus.SaleRepresentation{
+		Data:        body.Bytes(),
+		Name:        "invoice",
+		Extension:   ".html",
+		ContentType: "text/html",
+	}, nil
+
 }
