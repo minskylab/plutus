@@ -2,6 +2,7 @@ package culqi
 
 import (
 	"encoding/base64"
+	"log"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -64,6 +65,9 @@ func (c *PlutusBridge) getNewSessionID(params ...CheckoutParams) (string, error)
 		return "", err
 	}
 
+	for _, c := range r.Cookies() {
+		log.Println(c.String())
+	}
 	if len(r.Cookies()) == 0 {
 		return "", ErrCulqiNotWorking
 	}

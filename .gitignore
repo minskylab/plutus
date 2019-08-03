@@ -23,3 +23,5 @@ yarn-error.log
 __sapper__
 
 plutus
+*.db
+plutus.config.yml

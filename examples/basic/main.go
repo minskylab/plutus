@@ -2,8 +2,7 @@ package main
 
 import (
 	"context"
-
-	"github.com/k0kubun/pp"
+	"log"
 
 	plutus "github.com/bregydoc/plutus/proto"
 	"google.golang.org/grpc"
@@ -34,7 +33,7 @@ func main() {
 		panic(err)
 	}
 
-	pp.Println(card.Id, card.Value)
+	log.Println(card.Id, card.Value)
 
 	sale, err := pl.NewFastSale(context.Background(), &plutus.FastSale{
 		CustomerEmail: "bregymr@gmail.com",
@@ -47,7 +46,7 @@ func main() {
 		panic(err)
 	}
 
-	pp.Println(sale.Id, sale.State.String())
+	log.Println(sale.Id, sale.State.String())
 
 	charge, err := pl.ChargeSaleByID(context.Background(), &plutus.ChargeSaleRequest{
 		SaleID:      sale.Id,
@@ -59,10 +58,10 @@ func main() {
 		panic(err)
 	}
 
-	pp.Println(charge.Id, charge.Value)
+	log.Println(charge.Id, charge.Value)
 
 	sale, err = pl.GetSale(context.Background(), &plutus.SaleIDRequest{Id: sale.Id})
 
-	pp.Println(sale.Id, sale.State.String())
+	log.Println(sale.Id, sale.State.String())
 
 }

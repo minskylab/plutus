@@ -100,6 +100,9 @@ func (q *PlutusBridge) executeCharge(source plutus.CardToken, params plutus.Char
 	req.Header.Add("User-Agent", "plutus/0.2")
 
 	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
 
 	if resp.StatusCode != http.StatusCreated {
 		data, err := ioutil.ReadAll(resp.Body)
