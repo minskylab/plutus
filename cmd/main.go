@@ -8,6 +8,7 @@ import (
 
 	"github.com/bregydoc/plutus"
 	"github.com/bregydoc/plutus/bridges/culqi"
+	"github.com/bregydoc/plutus/bridges/paypal"
 	"github.com/bregydoc/plutus/delivery/smtp"
 	proto "github.com/bregydoc/plutus/proto"
 	"github.com/bregydoc/plutus/repository"
@@ -29,6 +30,11 @@ func main() {
 	switch config.Bridge.Backend {
 	case "culqi":
 		bridge, err = culqi.NewBridge(config.Bridge.PublicKey, config.Bridge.PrivateKey)
+		if err != nil {
+			panic(err)
+		}
+	case "paypal":
+		bridge, err = paypal.NewBridge(config.Bridge.PublicKey, config.Bridge.PrivateKey)
 		if err != nil {
 			panic(err)
 		}
