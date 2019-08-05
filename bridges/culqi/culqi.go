@@ -11,6 +11,14 @@ import (
 	"github.com/bregydoc/plutus"
 )
 
+var culqiDescription = &plutus.BridgeDescription{
+	Name:                 "culqi",
+	Version:              "0.1.0",
+	CanGenerateCardToken: true,
+	CanMakeCharge:        true,
+	CanMakeRefund:        true,
+}
+
 // Bridge represents a bridge between your culqi service and your plutus service
 type Bridge struct {
 	publicKey  string
@@ -38,6 +46,11 @@ func NewBridge(publicKey, secretKey string) (*Bridge, error) {
 		apiVersion: "2",
 		repo:       repo,
 	}, nil
+}
+
+// Describe returns useful information of culqi bridge, that is an implementation of plutus bridge
+func (bridge *Bridge) Describe() *plutus.BridgeDescription {
+	return culqiDescription
 }
 
 // NewToken returns a new token of your card, that is an implementation of plutus bridge
