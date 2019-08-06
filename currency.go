@@ -4,7 +4,6 @@ package plutus
 type Currency struct {
 	Name       string
 	Symbol     string
-	Base       *Currency
 	Multiplier int
 }
 
@@ -33,6 +32,6 @@ var USD = &Currency{
 
 // AvailableCurrencies is a map with available currencies
 var AvailableCurrencies = map[string]*Currency{
-	"PEN": PEN,
-	"USD": USD,
+	PEN.Name: PEN,
+	USD.Name: USD,
 }

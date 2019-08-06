@@ -1,14 +1,12 @@
 package paypal
 
 import (
-	"bytes"
 	"errors"
 	"log"
 	"net/http"
 	"strconv"
 	"time"
 
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 
@@ -41,31 +39,7 @@ func NewBridge(publicKey, privateKey string) (*Bridge, error) {
 		paypalOrderAPI: "https://api.sandbox.paypal.com/v2/checkout/orders/",
 	}
 
-	credentials := fmt.Sprintf("%s:%s", bridge.publicKey, bridge.privateKey)
-	crd := base64.StdEncoding.EncodeToString([]byte(credentials))
-
-	body := bytes.NewBufferString("grant_type=client_credentials")
-	req, err := http.NewRequest(http.MethodPost, bridge.paypalOAuth, body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Accept", "application/json")
-	req.Header.Add("Authorization", "Basic "+crd)
-
-	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-
-	req.Form.Add("grant_type", "client_credentials")
-
-	res, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return nil, err
-	}
-
-	log.Println("RES CODE:", res.StatusCode)
-
-	token := new(authResponse)
-	err = json.NewDecoder(res.Body).Decode(token)
+	token, err := bridge.genAccessToken()
 	if err != nil {
 		return nil, err
 	}
@@ -105,7 +79,28 @@ func (bridge *Bridge) MakeCharge(source plutus.CardToken, params plutus.ChargePa
 
 	log.Println("RES CODE:", res.StatusCode)
 
-	// * HERE DATA
+	if res.StatusCode != http.StatusOK {
+		paypalErr := new(paypalError)
+		err = json.NewDecoder(res.Body).Decode(paypalErr)
+		if err != nil {
+			return nil, err
+		}
+
+		// * Refresh token
+		if paypalErr.Error == "invalid_token" {
+			token, err := bridge.genAccessToken()
+			if err != nil {
+				return nil, err
+			}
+
+			bridge.AccessToken = token.AccessToken
+
+			return bridge.MakeCharge(source, params)
+		}
+
+		return nil, fmt.Errorf("[from paypal] %s", paypalErr.Error)
+	}
+
 	response := new(orderResponse)
 
 	err = json.NewDecoder(res.Body).Decode(&response)
