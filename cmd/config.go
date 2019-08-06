@@ -17,6 +17,7 @@ type deliveryChannelConfig struct {
 	Username string `yaml:"username"`
 	Password string `yaml:"password"`
 	From     string `yaml:"from"`
+	Port     int64  `yaml:"port"`
 }
 
 type companyConfig struct {

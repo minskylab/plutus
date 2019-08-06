@@ -22,7 +22,7 @@ type Deliver struct {
 // Config is a wrap for minimal configuration of your smtp deliver way
 type Config struct {
 	Host     string
-	Port     int
+	Port     int64
 	Username string
 	Password string
 	From     string
@@ -41,13 +41,14 @@ func NewSMTPDeliver(config Config, templateFile string) (*Deliver, error) {
 		}
 
 		var err error
-		port, err = strconv.Atoi(chunks[1])
+		p, err := strconv.Atoi(chunks[1])
 		if err != nil {
 			return nil, err
 		}
+		port = int64(p)
 	}
 
-	dialer := mail.NewDialer(config.Host, port, config.Username, config.Password)
+	dialer := mail.NewDialer(config.Host, int(port), config.Username, config.Password)
 
 	return &Deliver{
 		dialer:       dialer,

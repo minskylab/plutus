@@ -50,12 +50,16 @@ func main() {
 	for channelName, channelConfig := range config.Delivery {
 		if channelName == "smtp" {
 			templateFile := "template.html"
+			var port int64 = 587
+			if channelConfig.Port != 0 {
+				port = channelConfig.Port
+			}
 			ch, err := smtp.NewSMTPDeliver(smtp.Config{
 				Host:     channelConfig.Host,
 				Username: channelConfig.Username,
 				Password: channelConfig.Password,
 				From:     channelConfig.From,
-				Port:     587,
+				Port:     port,
 			}, templateFile)
 			if err != nil {
 				panic(err)
@@ -64,7 +68,9 @@ func main() {
 		}
 	}
 
-	repo, err := repository.NewBoltRepository("./plutus.db")
+	repoName := fmt.Sprintf("./plutus_%s.db", config.Bridge.Backend)
+
+	repo, err := repository.NewBoltRepository(repoName)
 	if err != nil {
 		panic(err)
 	}
