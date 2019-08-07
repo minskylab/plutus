@@ -25,7 +25,7 @@ var Done SaleState = "done"
 
 // Sale is a bidirectional transaction
 type Sale struct {
-	ID            string
+	ID            string `storm:"id"`
 	CreatedAt     time.Time
 	UpdatedAt     time.Time
 	State         SaleState

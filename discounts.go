@@ -27,7 +27,7 @@ type DiscountUseRecord struct {
 
 // DiscountCode represents a discount promotional code
 type DiscountCode struct {
-	ID      string
+	ID      string `storm:"id"`
 	Start   time.Time
 	End     time.Time
 	MaxUses int

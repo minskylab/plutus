@@ -2,7 +2,6 @@ package paypal
 
 import (
 	"errors"
-	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -77,7 +76,7 @@ func (bridge *Bridge) MakeCharge(source plutus.CardToken, params plutus.ChargePa
 		return nil, err
 	}
 
-	log.Println("RES CODE:", res.StatusCode)
+	// log.Println("RES CODE:", res.StatusCode)
 
 	if res.StatusCode != http.StatusOK {
 		paypalErr := new(paypalError)
@@ -105,7 +104,7 @@ func (bridge *Bridge) MakeCharge(source plutus.CardToken, params plutus.ChargePa
 
 	err = json.NewDecoder(res.Body).Decode(&response)
 
-	log.Printf("%+v\n", response)
+	// log.Printf("%+v\n", response)
 
 	if params.Currency == nil {
 		return nil, fmt.Errorf("currency is necessary")
@@ -134,8 +133,8 @@ func (bridge *Bridge) MakeCharge(source plutus.CardToken, params plutus.ChargePa
 		return nil, fmt.Errorf("invalid amount, your order did capture %.2f and you pass %.2f", amountFloat, params.Amount)
 	}
 
-	if params.Currency.Symbol != amount.CurrencyCode {
-		return nil, fmt.Errorf("[from paypal] no merge between %s and %s currencies", params.Currency.Symbol, amount.CurrencyCode)
+	if params.Currency.Code != amount.CurrencyCode {
+		return nil, fmt.Errorf("[from paypal] no merge between %s and %s currencies", params.Currency.Code, amount.CurrencyCode)
 	}
 
 	if params.Email != response.Payer.EmailAddress {

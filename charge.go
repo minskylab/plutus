@@ -13,8 +13,8 @@ type ChargeParams struct {
 
 // ChargeToken is the reponse from your payment bridge
 type ChargeToken struct {
-	ID            string
-	Value         string
+	ID            string `storm:"id"`
+	Value         string `storm:"unique"`
 	Message       string
 	WithCardToken CardToken
 	CreatedAt     time.Time

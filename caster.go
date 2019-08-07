@@ -15,6 +15,9 @@ func locationToProto(location Location) *plutus.Location {
 }
 
 func locationFromProto(location *plutus.Location) Location {
+	if location == nil {
+		return Location{}
+	}
 	return Location{
 		Address: location.Address,
 		City:    location.City,
@@ -39,6 +42,9 @@ func customerToProto(customer Customer) *plutus.Customer {
 }
 
 func customerFromProto(customer *plutus.Customer) Customer {
+	if customer == nil {
+		return Customer{}
+	}
 	loc := locationFromProto(customer.Location)
 	return Customer{
 		ID:       customer.Id,
@@ -63,6 +69,9 @@ func encodedCardDetailsToProto(details EncodedCardDetails) *plutus.EncodedCardDe
 }
 
 func encodedCardDetailsFromProto(details *plutus.EncodedCardDetails) EncodedCardDetails {
+	if details == nil {
+		return EncodedCardDetails{}
+	}
 	customer := customerFromProto(details.Customer)
 	return EncodedCardDetails{
 		Number:         details.Number,
@@ -100,8 +109,10 @@ func cardTokenToProto(token CardToken) *plutus.CardToken {
 }
 
 func cardTokenFromProto(token *plutus.CardToken) CardToken {
+	if token == nil {
+		return CardToken{}
+	}
 	createdAt, _ := ptypes.Timestamp(token.CreatedAt)
-
 	return CardToken{
 		CreatedAt: createdAt,
 		ID:        token.Id,
@@ -123,6 +134,9 @@ func chargeTokenToProto(token ChargeToken) *plutus.ChargeToken {
 }
 
 func chargeTokenFromProto(token *plutus.ChargeToken) ChargeToken {
+	if token == nil {
+		return ChargeToken{}
+	}
 	createdAt, _ := ptypes.Timestamp(token.CreatedAt)
 	return ChargeToken{
 		CreatedAt:     createdAt,
@@ -141,7 +155,10 @@ func costToProto(cost Cost) *plutus.Cost {
 }
 
 func costFromProto(cost *plutus.Cost) Cost {
-	//! Check that later
+	if cost == nil {
+		return Cost{}
+	}
+	// ! Warning
 	curr := AvailableCurrencies[cost.Currency]
 	return Cost{
 		Amount:   cost.Amount,
@@ -158,6 +175,9 @@ func productToProto(product Product) *plutus.Product {
 }
 
 func productFromProto(product *plutus.Product) Product {
+	if product == nil {
+		return Product{}
+	}
 	return Product{
 		Name:    product.Name,
 		Details: product.Details,
@@ -236,6 +256,9 @@ func discountUseRecordToProto(record DiscountUseRecord) *plutus.DiscountUseRecor
 }
 
 func discountUseRecordFromProto(record *plutus.DiscountUseRecord) DiscountUseRecord {
+	if record == nil {
+		return DiscountUseRecord{}
+	}
 	customer := customerFromProto(record.By)
 	at, _ := ptypes.Timestamp(record.At)
 	return DiscountUseRecord{
@@ -274,6 +297,9 @@ func discountToProto(discount Discount) *plutus.Discount {
 }
 
 func discountFromProto(discount *plutus.Discount) Discount {
+	if discount == nil {
+		return Discount{}
+	}
 	discountType := PercentDiscount
 	if discount.Type == plutus.DiscountType_STATIC {
 		discountType = StaticDiscount
@@ -308,6 +334,9 @@ func discountCodeToProto(code DiscountCode) *plutus.DiscountCode {
 }
 
 func discountCodeFromProto(code *plutus.DiscountCode) DiscountCode {
+	if code == nil {
+		return DiscountCode{}
+	}
 	start, _ := ptypes.Timestamp(code.Start)
 	end, _ := ptypes.Timestamp(code.End)
 	val := discountFromProto(code.Value)
@@ -373,6 +402,9 @@ func saleToProto(sale Sale) *plutus.Sale {
 }
 
 func saleFromProto(sale *plutus.Sale) Sale {
+	if sale == nil {
+		return Sale{}
+	}
 	createdAt, _ := ptypes.Timestamp(sale.CreatedAt)
 	updatedAt, _ := ptypes.Timestamp(sale.UpdatedAt)
 

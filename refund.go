@@ -11,8 +11,8 @@ type RefundParams struct {
 
 // RefundToken is the reponse from your payment bridge
 type RefundToken struct {
-	ID        string
-	Value     string
+	ID        string `storm:"id"`
+	Value     string `storm:"unique"`
 	CreatedAt time.Time
 }
 

@@ -4,7 +4,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"strings"
 )
@@ -30,7 +29,7 @@ func (bridge *Bridge) genAccessToken() (*authResponse, error) {
 		return nil, err
 	}
 
-	log.Println("RES CODE:", res.StatusCode)
+	// log.Println("RES CODE:", res.StatusCode)
 
 	if res.StatusCode != http.StatusOK {
 		paypalErr := new(paypalError)
