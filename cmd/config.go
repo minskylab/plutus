@@ -6,10 +6,13 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+type backendConfig map[string]string
+
 type configBridge struct {
-	Backend    string `yaml:"backend"`
-	PublicKey  string `yaml:"public_key"`
-	PrivateKey string `yaml:"private_key"`
+	Backend    string                   `yaml:"backend"` // DEPRECATE IN THE FUTURE
+	Backends   map[string]backendConfig `yaml:"backends"`
+	PublicKey  string                   `yaml:"public_key"`  // DEPRECATE IN THE FUTURE
+	PrivateKey string                   `yaml:"private_key"` // DEPRECATE IN THE FUTURE
 }
 
 type deliveryChannelConfig struct {

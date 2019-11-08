@@ -28,10 +28,10 @@ type EncodedCardDetails struct {
 
 func (card *CardDetails) Validate(mods ...string) bool {
 	c := creditcard.Card{
-		Number:  card.Number,
-		Cvv:     card.CVV,
-		Month:   fmt.Sprintf("%s", card.Expiration.Month),
-		Year:    fmt.Sprintf("%s", card.Expiration.Year,),
+		Number: card.Number,
+		Cvv:    card.CVV,
+		Month:  fmt.Sprintf("%d", card.Expiration.Month),
+		Year:   fmt.Sprintf("%d", card.Expiration.Year),
 	}
 	if err := c.Method(); err != nil {
 		return false

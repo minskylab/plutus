@@ -26,6 +26,7 @@ func (customer *Customer) FillID() {
 	customer.ID = ids.New()
 }
 
+// String implement a string representation of a customer
 func (customer *Customer) String() string {
 	return fmt.Sprintf("%s<%s>", customer.Name, customer.Email)
 }

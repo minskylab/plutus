@@ -3,72 +3,83 @@ syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 
 service Plutus {
-  rpc NewCardToken(NewCardTokenRequest) returns (CardToken);
-  rpc NewCardTokenFromNative(NewCardTokenNativeRequest) returns (CardToken);
-  rpc GetCardTokenOfCustomerByID(CardTokenByID) returns (CardToken);
-  rpc GetCardTokenOfCustomerByCustomer(CardTokenByCustomer) returns (CardToken);
-  rpc DeleteCardToken(CardTokenByID) returns (CardToken);
+    rpc NewCardToken(NewCardTokenRequest) returns (CardToken);
+    rpc NewCardTokenAuto(NewCardTokenAutoRequest) returns (CardToken);
+    rpc NewCardTokenFromNative(NewCardTokenNativeRequest) returns (CardToken);
+    rpc GetCardTokenOfCustomerByID(CardTokenByID) returns (CardToken);
+//    rpc GetCardTokenOfCustomerByCustomer(CardTokenByCustomer) returns (CardToken);
+    rpc DeleteCardToken(CardTokenByID) returns (CardToken);
 
-  rpc NewFastSale(FastSale) returns (Sale);
-  rpc NewSale(NewSaleRequest) returns (Sale);
-  rpc GetSale(SaleIDRequest) returns (Sale);
-  rpc GetSales(SalesFilterRequest) returns (Sales);
-  rpc UpdateSale(SaleUpdateRequest) returns (Sale);
+    rpc NewFastSale(FastSale) returns (Sale);
+    rpc NewSale(NewSaleRequest) returns (Sale);
+    rpc GetSale(SaleIDRequest) returns (Sale);
+    rpc GetSales(SalesFilterRequest) returns (Sales);
+    rpc UpdateSale(SaleUpdateRequest) returns (Sale);
 
-  rpc DeliverSale(DeliverSaleRequest) returns (DeliverChannelResponse);
+    rpc DeliverSale(DeliverSaleRequest) returns (DeliverChannelResponse);
 
-  rpc ChargeSaleByID(ChargeSaleRequest) returns (ChargeToken);
-  rpc ChargeSaleWithNativeToken(ChargeWithNativeToken) returns (ChargeToken);
+    rpc ChargeSale(ChargeSaleRequest) returns (ChargeToken);
+    rpc ChargeSaleAuto(ChargeSaleAutoRequest) returns (ChargeToken);
+    rpc ChargeSaleWithNativeToken(ChargeWithNativeToken) returns (ChargeToken);
 
-  rpc DoneSale(SaleIDRequest) returns (Sale);
+    rpc DoneSale(SaleIDRequest) returns (Sale);
 
-  rpc CreateDiscountCode(DiscountCodeRequest) returns (DiscountCode);
-  rpc GetDiscountCode(DiscountCodeID) returns (DiscountCode);
-  rpc ValidateDiscountCode(DiscountCodeValue) returns (DiscountCodeExist);
-  rpc GetActiveDiscountCodes(ActiveDiscountsRequest) returns (DiscountCodes);
-  rpc DeleteDiscountCode(DiscountCodeID) returns (DiscountCodes);
+    rpc CreateDiscountCode(DiscountCodeRequest) returns (DiscountCode);
+    rpc GetDiscountCode(DiscountCodeID) returns (DiscountCode);
+    rpc ValidateDiscountCode(DiscountCodeValue) returns (DiscountCodeExist);
+    rpc GetActiveDiscountCodes(ActiveDiscountsRequest) returns (DiscountCodes);
+    rpc DeleteDiscountCode(DiscountCodeID) returns (DiscountCodes);
 }
 
 message SalesFilterRequest {
-  int32 page = 4;
-  int32 itemsPerPage = 3;
-  google.protobuf.Timestamp from = 1;
-  google.protobuf.Timestamp to = 2;
-  string byCardTokenID = 6;
-  string byChargeTokenID = 7;
-  repeated SaleState byStates = 5;
+    int32 page = 4;
+    int32 itemsPerPage = 3;
+    google.protobuf.Timestamp from = 1;
+    google.protobuf.Timestamp to = 2;
+    string byCardTokenID = 6;
+    string byChargeTokenID = 7;
+    repeated SaleState byStates = 5;
 }
 
 message Sales {
-  repeated Sale sales = 1;
-  int32 total = 2;
-  int32 page = 3;
-  int32 next = 4;
+    repeated Sale sales = 1;
+    int32 total = 2;
+    int32 page = 3;
+    int32 next = 4;
 }
 
 message ChargeSaleRequest {
-  string saleID = 1;
-  string cardTokenID = 2;
-  string details = 3;
+    Provider provider = 4;
+    string saleID = 1;
+    string cardTokenID = 2;
+    string details = 3;
+}
+
+message ChargeSaleAutoRequest {
+    string saleID = 1;
+    string cardTokenID = 2;
+    string details = 3;
 }
 
 message NewCardTokenNativeRequest {
-  string token = 1;
-  Customer customer = 2;
-  CardTokenType type = 3;
+    Provider provider = 4;
+    string token = 1;
+    Customer customer = 2;
+    CardTokenType type = 3;
 }
 
 message DiscountCodeValue {
-  string value = 1;
-  string customerID = 2;
+    string value = 1;
+    string customerID = 2;
 }
 
 message DiscountCodeExist { bool ok = 1; }
 
 message ChargeWithNativeToken {
-  string saleID = 1;
-  string nativeToken = 2;
-  string details = 3;
+    Provider provider = 4;
+    string saleID = 1;
+    string nativeToken = 2;
+    string details = 3;
 }
 
 message DiscountCodes { repeated DiscountCode discounts = 1; }
@@ -80,150 +91,171 @@ message DiscountCodeID { string id = 1; }
 message DiscountCodeRequest {}
 
 message SaleUpdateRequest {
-  string id = 1;
-  Sale updateData = 2;
+    string id = 1;
+    Sale updateData = 2;
 }
 
 message DeliverSaleRequest {
-  string saleID = 1;
-  string channelName = 2;
-  map<string, string> metadata = 3;
+    string saleID = 1;
+    string channelName = 2;
+    map<string, string> metadata = 3;
 }
 
 message DeliverChannelResponse {
-  string message = 1;
-  string code = 2;
+    string message = 1;
+    string code = 2;
 }
 
 message SaleIDRequest { string id = 1; }
 
 message FastSale {
-  string customerEmail = 1;
-  repeated Product products = 2;
+    string customerEmail = 1;
+    repeated Product products = 2;
 }
 
 message NewSaleRequest {
-  Customer customer = 1;
-  repeated Product products = 2;
+    Customer customer = 1;
+    repeated Product products = 2;
 }
 
-message CardTokenByID { string id = 1; }
+message CardTokenByID {
+    string id = 1;
+}
 
-message CardTokenByCustomer { Customer customer = 1; }
+message CardTokenByCustomer {
+    Customer customer = 1;
+}
 
 message NewCardTokenRequest {
-  Card card = 1;
-  Customer customer = 2;
+    Provider provider = 4;
 
-  CardTokenType type = 3;
+    Card card = 1;
+    Customer customer = 2;
+
+    CardTokenType type = 3;
+}
+
+message NewCardTokenAutoRequest {
+    Card card = 1;
+    Customer customer = 2;
+    CardTokenType type = 3;
 }
 
 message Card {
-  string number = 1;
-  int32 expMont = 2;
-  int32 expYear = 3;
-  string cvc = 4;
+    string number = 1;
+    int32 expMont = 2;
+    int32 expYear = 3;
+    string cvc = 4;
 }
 
 message Customer {
-  string id = 1;
-  string email = 2;
-  string name = 3;
-  string person = 6;
-  string phone = 4;
+    string id = 1;
+    string email = 2;
+    string name = 3;
+    string person = 6;
+    string phone = 4;
 
-  Location location = 5;
+    Location location = 5;
 }
 
 message Location {
-  string address = 1;
-  string city = 2;
-  string state = 3;
-  string zip = 4;
+    string address = 1;
+    string city = 2;
+    string state = 3;
+    string zip = 4;
 }
 
 message CardToken {
-  string id = 1;
-  CardTokenType type = 2;
-  string value = 3;
-  EncodedCardDetails withCard = 4;
-  google.protobuf.Timestamp createdAt = 5;
+    string id = 1;
+    CardTokenType type = 2;
+    string value = 3;
+    EncodedCardDetails withCard = 4;
+    google.protobuf.Timestamp createdAt = 5;
 }
 
 enum CardTokenType {
-  ONEUSE = 0;
-  RECURRENT = 1;
+    ONEUSE = 0;
+    RECURRENT = 1;
 }
 
 message EncodedCardDetails {
-  string number = 1;
-  int32 expirationYear = 2;
-  Customer customer = 3;
+    string number = 1;
+    int32 expirationYear = 2;
+    Customer customer = 3;
 }
 
 message Sale {
-  string id = 1;
-  google.protobuf.Timestamp createdAt = 2;
-  google.protobuf.Timestamp updatedAt = 3;
-  SaleState state = 4;
-  Customer customer = 5;
-  repeated Product products = 6;
-  repeated DiscountCode discountCodes = 7;
-  CardToken cardToken = 8;
-  ChargeToken charge = 9;
-  string currencyToPay = 10;
+    string id = 1;
+    google.protobuf.Timestamp createdAt = 2;
+    google.protobuf.Timestamp updatedAt = 3;
+    SaleState state = 4;
+    Customer customer = 5;
+    repeated Product products = 6;
+    repeated DiscountCode discountCodes = 7;
+    CardToken cardToken = 8;
+    ChargeToken charge = 9;
+    string currencyToPay = 10;
 }
 
 message Product {
-  string name = 1;
-  string details = 2;
-  Cost cost = 3;
+    string name = 1;
+    string details = 2;
+    Cost cost = 3;
 }
 
 message Cost {
-  double amount = 1;
-  string currency = 2;
+    double amount = 1;
+    string currency = 2;
 }
 
 enum SaleState {
-  NULL = 0;
-  DRAFT = 1;
-  SIGNED = 2;
-  PAIDOUT = 3;
-  DONE = 4;
+    NULL = 0;
+    DRAFT = 1;
+    SIGNED = 2;
+    PAIDOUT = 3;
+    DONE = 4;
 }
 
 message ChargeToken {
-  string id = 1;
-  string value = 2;
-  string message = 3;
-  CardToken withCardToken = 4;
-  google.protobuf.Timestamp createdAt = 5;
+    string id = 1;
+    string value = 2;
+    string message = 3;
+    CardToken withCardToken = 4;
+    google.protobuf.Timestamp createdAt = 5;
 }
 
 message DiscountCode {
-  string id = 1;
-  google.protobuf.Timestamp start = 2;
-  google.protobuf.Timestamp end = 3;
-  int32 maxUses = 4;
-  repeated DiscountUseRecord uses = 5;
-  string code = 6;
-  Discount value = 7;
+    string id = 1;
+    google.protobuf.Timestamp start = 2;
+    google.protobuf.Timestamp end = 3;
+    int32 maxUses = 4;
+    repeated DiscountUseRecord uses = 5;
+    string code = 6;
+    Discount value = 7;
 }
 
 message DiscountUseRecord {
-  google.protobuf.Timestamp at = 1;
-  Customer by = 2;
+    google.protobuf.Timestamp at = 1;
+    Customer by = 2;
 }
 
 message Discount {
-  DiscountType type = 1;
-  double percent = 2;
-  double amount = 3;
-  string currency = 4;
+    DiscountType type = 1;
+    double percent = 2;
+    double amount = 3;
+    string currency = 4;
 }
 
 enum DiscountType {
-  STATIC = 0;
-  PERCENT = 1;
+    STATIC = 0;
+    PERCENT = 1;
+}
+
+enum Provider {
+    CULQI = 0;
+    PAYPAL = 1;
+    VISANET = 2;
+    STRIPE = 3;
+    DUMMY = 4;
+    // TODO: Add more providers here
 }

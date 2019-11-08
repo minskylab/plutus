@@ -2,36 +2,23 @@ package plutus
 
 // Currency is struct to describe a currency
 type Currency struct {
-	Name       string
-	Code       string
-	Symbol     string
-	Multiplier int
-}
-
-// UNIT is the basic unit of currency
-var UNIT = &Currency{
-	Multiplier: 1,
-	Name:       "UNIT",
-	Code:       "UNIT",
-	Symbol:     "-",
+	Name   string
+	Code   string
+	Symbol string
 }
 
 // PEN represents a Peruvian Currency
 var PEN = &Currency{
-	Multiplier: 100,
-	Name:       "PEN",
-	Code:       "PEN",
-	Symbol:     "s/",
-	// Base:       &UNIT,
+	Name:   "PEN",
+	Code:   "PEN",
+	Symbol: "s/",
 }
 
 // USD represents an American Dollar
 var USD = &Currency{
-	Multiplier: 100,
-	Name:       "USD",
-	Code:       "USD",
-	Symbol:     "$",
-	// Base:       &UNIT,
+	Name:   "USD",
+	Code:   "USD",
+	Symbol: "$",
 }
 
 // AvailableCurrencies is a map with available currencies

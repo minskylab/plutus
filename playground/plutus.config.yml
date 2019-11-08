@@ -1,8 +1,12 @@
 ---
 bridge:
-  backend: culqi
-  public_key: "..."
-  private_key: "..."
+  backends:
+    - culqi:
+        public_key: "..."
+        private_key: "..."
+    - paypal:
+        public_key: "..."
+        private_key: "..."
 delivery:
   smtp:
     host: "Your smtp endpoint"

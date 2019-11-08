@@ -1,6 +1,6 @@
 package plutus
 
-// BridgeDescription is used to describe a bridge, is a fast overview of the capabilities of this bridge
+// BridgeDescription is used to describe a bridge, it's a fast overview the capabilities of this bridge
 type BridgeDescription struct {
 	Name                 string
 	Version              string
