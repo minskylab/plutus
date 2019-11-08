@@ -48,9 +48,9 @@ type errorResponseFromCulqi struct {
 	MerchantMessage string `json:"merchant_message,omitempty"`
 }
 
-func (q *Bridge) executeCharge(source plutus.CardToken, params plutus.ChargeParams) (*plutus.ChargeToken, error) {
+func (bridge *Bridge) executeCharge(source plutus.CardToken, params plutus.ChargeParams) (*plutus.ChargeToken, error) {
 
-	apiKey := q.secretKey
+	apiKey := bridge.secretKey
 
 	antifraud := antifraudDetails{}
 	if params.ExtraInfo != nil {

@@ -25,3 +25,4 @@ __sapper__
 plutus
 *.db
 plutus.config.yml
+.idea

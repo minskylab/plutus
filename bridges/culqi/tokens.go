@@ -33,7 +33,7 @@ type culqiError struct {
 	Message string `json:"merchant_message"`
 }
 
-func (c *Bridge) getNewToken(payload tokenPayload, sessionID string) (*Token, error) {
+func (bridge *Bridge) getNewToken(payload tokenPayload, sessionID string) (*Token, error) {
 	buff := bytes.NewBufferString("")
 	err := json.NewEncoder(buff).Encode(payload)
 	if err != nil {
@@ -44,9 +44,9 @@ func (c *Bridge) getNewToken(payload tokenPayload, sessionID string) (*Token, er
 		return nil, err
 	}
 
-	req.Header.Set("X-API-KEY", c.publicKey)
-	req.Header.Set("X-API-VERSION", c.apiVersion)
-	req.Header.Set("X-CULQI-ENV", c.env)
+	req.Header.Set("X-API-KEY", bridge.publicKey)
+	req.Header.Set("X-API-VERSION", bridge.apiVersion)
+	req.Header.Set("X-CULQI-ENV", bridge.env)
 	req.Header.Set("X-CULQI-SESS", sessionID)
 	req.Header.Set("Content-Type", "application/json")
 
@@ -74,8 +74,8 @@ func (c *Bridge) getNewToken(payload tokenPayload, sessionID string) (*Token, er
 
 }
 
-func (c *Bridge) generateNewOneUseToken(cardDetails plutus.CardDetails) (*Token, error) {
-	sess, err := c.getNewSessionID()
+func (bridge *Bridge) generateNewOneUseToken(cardDetails plutus.CardDetails) (*Token, error) {
+	sess, err := bridge.getNewSessionID()
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func (c *Bridge) generateNewOneUseToken(cardDetails plutus.CardDetails) (*Token,
 	if cardDetails.Customer == nil {
 		return nil, errors.New("please include the customer's email in your card details")
 	}
-	return c.getNewToken(tokenPayload{
+	return bridge.getNewToken(tokenPayload{
 		Email:           cardDetails.Customer.Email,
 		CardNumber:      cardDetails.Number,
 		CVV:             cardDetails.CVV,

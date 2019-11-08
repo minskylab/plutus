@@ -1,5 +1,10 @@
 package plutus
 
+import (
+	"fmt"
+	"github.com/bregydoc/plutus/creditcard"
+)
+
 // Date is a simple wrap for year and month date
 type Date struct {
 	Year  int
@@ -19,4 +24,22 @@ type EncodedCardDetails struct {
 	Number         string
 	ExpirationYear int
 	Customer       *Customer
+}
+
+func (card *CardDetails) Validate(mods ...string) bool {
+	c := creditcard.Card{
+		Number:  card.Number,
+		Cvv:     card.CVV,
+		Month:   fmt.Sprintf("%s", card.Expiration.Month),
+		Year:    fmt.Sprintf("%s", card.Expiration.Year,),
+	}
+	if err := c.Method(); err != nil {
+		return false
+	}
+
+	if err := c.Validate(true); err != nil {
+		return false
+	}
+
+	return true
 }

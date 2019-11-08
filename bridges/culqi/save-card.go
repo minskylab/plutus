@@ -8,7 +8,7 @@ import (
 )
 
 // tokenID: token generaed by culqi, from frontend or plutus ;)
-func (q *Bridge) generateNewRecurrentToken(token string, details plutus.CardDetails) (*Card, error) {
+func (bridge *Bridge) generateNewRecurrentToken(token string, details plutus.CardDetails) (*Card, error) {
 	if details.Customer == nil {
 		return nil, errors.New("if you want to create a recurrent token, you need to include all customer details")
 	}
@@ -30,7 +30,7 @@ func (q *Bridge) generateNewRecurrentToken(token string, details plutus.CardDeta
 		cCode = details.Customer.Location.ZIP
 	}
 
-	customerID, err := q.createCustomer(&CustomerInfo{
+	customerID, err := bridge.createCustomer(&CustomerInfo{
 		FirstName:   firstName,
 		LastName:    lastName,
 		Address:     details.Customer.Location.Address,
@@ -44,7 +44,7 @@ func (q *Bridge) generateNewRecurrentToken(token string, details plutus.CardDeta
 		return nil, err
 	}
 
-	card, err := q.createCard(customerID, token)
+	card, err := bridge.createCard(customerID, token)
 	if err != nil {
 		return nil, err
 	}

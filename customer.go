@@ -1,5 +1,7 @@
 package plutus
 
+import "fmt"
+
 // Location is a set of fields to localize to customer
 type Location struct {
 	Address     string
@@ -22,4 +24,8 @@ type Customer struct {
 // FillID fills the id
 func (customer *Customer) FillID() {
 	customer.ID = ids.New()
+}
+
+func (customer *Customer) String() string {
+	return fmt.Sprintf("%s<%s>", customer.Name, customer.Email)
 }

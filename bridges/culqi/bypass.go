@@ -26,7 +26,7 @@ func encodeString(value string) string {
 	return base64.URLEncoding.EncodeToString([]byte(value))
 }
 
-func (c *Bridge) generateCheckoutURL(params ...CheckoutParams) (string, error) {
+func (bridge *Bridge) generateCheckoutURL(params ...CheckoutParams) (string, error) {
 	ch, err := url.Parse(baseCheckoutURL)
 	if err != nil {
 		return "", err
@@ -41,7 +41,7 @@ func (c *Bridge) generateCheckoutURL(params ...CheckoutParams) (string, error) {
 		p = params[0]
 	}
 
-	v.Add("public_key", c.publicKey)
+	v.Add("public_key", bridge.publicKey)
 	v.Add("title", encodeString(p.Title))
 	v.Add("currency", encodeString(p.Currency))
 	v.Add("description", encodeString(p.Description))
@@ -54,8 +54,8 @@ func (c *Bridge) generateCheckoutURL(params ...CheckoutParams) (string, error) {
 	return ch.String(), nil
 }
 
-func (c *Bridge) getNewSessionID(params ...CheckoutParams) (string, error) {
-	uri, err := c.generateCheckoutURL(params...)
+func (bridge *Bridge) getNewSessionID(params ...CheckoutParams) (string, error) {
+	uri, err := bridge.generateCheckoutURL(params...)
 	if err != nil {
 		return "", err
 	}
