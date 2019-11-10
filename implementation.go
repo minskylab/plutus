@@ -86,7 +86,6 @@ func (e *SalesEngine) DeleteDiscountCode(context.Context, *proto.DiscountCodeID)
 
 }
 
-//
 // // NewCardToken implements a grpc plutus service
 // func (e *SalesEngine) NewCardToken(c context.Context, p *plutus.NewCardTokenRequest) (*plutus.CardToken, error) {
 // 	var customer *Customer

@@ -17,12 +17,10 @@ func main() {
 
 	pl := plutus.NewPlutusClient(conn)
 
-	// card, err := pl.GetCardTokenOfCustomerByID(context.Background(), &plutus.CardTokenByID{
-	// 	Id: "j9jcag60nts976k8nuem",
-	// })
 	card, err := pl.NewCardTokenFromNative(context.Background(), &plutus.NewCardTokenNativeRequest{
-		Token: "08L39595A40835904",
-		Type:  plutus.CardTokenType_ONEUSE,
+		Provider: plutus.Provider_PAYPAL,
+		Token:    "08L39595A40835904",
+		Type:     plutus.CardTokenType_ONEUSE,
 		Customer: &plutus.Customer{
 			Name:  "Maria Noriega",
 			Email: "maguanorgue1@gmail.com",
@@ -50,7 +48,7 @@ func main() {
 		panic(err)
 	}
 
-	charge, err := pl.ChargeSaleByID(context.Background(), &plutus.ChargeSaleRequest{
+	charge, err := pl.ChargeSaleAuto(context.Background(), &plutus.ChargeSaleAutoRequest{
 		SaleID:      sale.Id,
 		CardTokenID: card.Id,
 		Details:     "nothing",

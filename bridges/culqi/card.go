@@ -37,6 +37,7 @@ func (bridge *Bridge) createCard(customerID, tokenID string) (*Card, error) {
 		CustomerID: customerID,
 		TokenID:    tokenID,
 	})
+
 	if err != nil {
 		return nil, err
 	}

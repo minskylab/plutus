@@ -4,15 +4,18 @@ import (
 	"errors"
 	"github.com/bregydoc/plutus"
 	"log"
+	"math/rand"
 	"strconv"
 	"time"
-	"math/rand"
 )
-var r = rand.New(rand.NewSource(time.Now().Unix()))
 
+type Bridge struct {
+	r *rand.Rand
+}
 
-type Bridge struct {}
-
+func NewBridge() *Bridge {
+	return &Bridge{r: rand.New(rand.NewSource(time.Now().Unix()))}
+}
 
 func (bridge *Bridge) Describe() *plutus.BridgeDescription {
 	return dummyDesc
@@ -26,13 +29,13 @@ func (bridge *Bridge) NewToken(details plutus.CardDetails, kind plutus.CardToken
 		return nil, errors.New("invalid credit card")
 	}
 	return &plutus.CardToken{
-		ID:        strconv.FormatInt(r.Int63(), 10),
-		Value:     "0x001",
-		Type:      kind,
-		WithCard:  plutus.EncodedCardDetails{
+		ID:    strconv.FormatInt(bridge.r.Int63(), 10),
+		Value: "0x001",
+		Type:  kind,
+		WithCard: plutus.EncodedCardDetails{
 			Number:         "41111*****1111",
 			ExpirationYear: 2021,
-			Customer:       &plutus.Customer{
+			Customer: &plutus.Customer{
 				ID:       "",
 				Person:   "0x2123",
 				Name:     "Dummy Customer",
@@ -59,8 +62,8 @@ func (bridge *Bridge) MakeCharge(source plutus.CardToken, params plutus.ChargePa
 	}
 
 	return &plutus.ChargeToken{
-		ID:            strconv.FormatInt(r.Int63(), 10),
-		Value: 		   "0x0c1",
+		ID:            strconv.FormatInt(bridge.r.Int63(), 10),
+		Value:         "0x0c1",
 		Message:       "I'm dummy",
 		WithCardToken: source,
 		CreatedAt:     time.Now(),

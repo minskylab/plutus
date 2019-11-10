@@ -7,7 +7,7 @@ service Plutus {
     rpc NewCardTokenAuto(NewCardTokenAutoRequest) returns (CardToken);
     rpc NewCardTokenFromNative(NewCardTokenNativeRequest) returns (CardToken);
     rpc GetCardTokenOfCustomerByID(CardTokenByID) returns (CardToken);
-//    rpc GetCardTokenOfCustomerByCustomer(CardTokenByCustomer) returns (CardToken);
+
     rpc DeleteCardToken(CardTokenByID) returns (CardToken);
 
     rpc NewFastSale(FastSale) returns (Sale);

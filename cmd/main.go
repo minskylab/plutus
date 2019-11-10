@@ -11,7 +11,7 @@ import (
 	"github.com/bregydoc/plutus/bridges/paypal"
 	"github.com/bregydoc/plutus/delivery/smtp"
 	proto "github.com/bregydoc/plutus/proto"
-	"github.com/bregydoc/plutus/repository"
+	"github.com/bregydoc/plutus/repository/boltdb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )
@@ -70,7 +70,7 @@ func main() {
 
 	repoName := fmt.Sprintf("./plutus_%s.db", config.Bridge.Backend)
 
-	repo, err := repository.NewBoltRepository(repoName)
+	repo, err := boltdb.NewBoltRepository(repoName)
 	if err != nil {
 		panic(err)
 	}
