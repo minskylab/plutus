@@ -14,9 +14,9 @@ import (
 
 // Deliver represents a form of deliver your plutus Sale
 type Deliver struct {
-	templateFile string
-	dialer       *mail.Dialer
-	from         string
+	template func(string) []byte
+	dialer   *mail.Dialer
+	from     string
 }
 
 // Config is a wrap for minimal configuration of your smtp deliver way
@@ -60,6 +60,53 @@ func NewSMTPDeliver(config Config, templateFile string) (*Deliver, error) {
 // Name implements a Plutus delivery channel
 func (smtp *Deliver) Name() string {
 	return "smtp"
+}
+
+func (smtp *Deliver) DeliverSale(from *plutus.Company, sale *plutus.Sale, metadata ...map[string]string) (*plutus.SaleRepresentation, error) {
+	m := mail.NewMessage()
+	if smtp.from != "" {
+		m.SetHeader("From", smtp.from)
+	} else {
+		m.SetHeader("From", from.Support.Email)
+	}
+	toEmail := ""
+	if sale.Customer != nil {
+		toEmail = sale.Customer.Email
+	}
+	if toEmail == "" {
+		return nil, errors.New("invalid customer email, please fill your email customer")
+	}
+
+	m.SetHeader("To", toEmail)
+
+	meta := map[string]string{}
+	if len(metadata) != 0 {
+		for _, m := range metadata {
+			for k, e := range m {
+				meta[k] = e
+			}
+		}
+	}
+
+	if subject, ok := meta["subject"]; ok {
+		m.SetHeader("Subject", subject)
+	} else {
+		m.SetHeader("Subject", "Your receipt are ready")
+	}
+
+	var temp []byte
+	// * If template data is pass throw metadata
+	if template, ok := meta["template"]; ok {
+		temp = []byte(template)
+	} else {
+		var err error
+		temp, err = ioutil.ReadFile(smtp.templateFile)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	body := bytes.NewBuffer(temp)
 }
 
 // SendSale implements a Plutus delivery channel
@@ -166,7 +213,6 @@ func (smtp *Deliver) SaleRepresentation(from *plutus.Company, sale *plutus.Sale,
 	return &plutus.SaleRepresentation{
 		Data:        body.Bytes(),
 		Name:        "invoice",
-		Extension:   ".html",
 		ContentType: "text/html",
 	}, nil
 

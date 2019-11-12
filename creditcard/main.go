@@ -1,4 +1,3 @@
-// Package creditcard provides methods for validating credit cards
 package creditcard
 
 import (
