@@ -48,8 +48,8 @@ func NewBridge(publicKey, secretKey string) (*Bridge, error) {
 	}, nil
 }
 
-// Describe returns useful information of culqi bridge, that is an implementation of plutus bridge
-func (bridge *Bridge) Describe() *plutus.BridgeDescription {
+// Description returns useful information of culqi bridge, that is an implementation of plutus bridge
+func (bridge *Bridge) Description() *plutus.BridgeDescription {
 	return culqiDescription
 }
 

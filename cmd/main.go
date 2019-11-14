@@ -54,7 +54,7 @@ func main() {
 			if channelConfig.Port != 0 {
 				port = channelConfig.Port
 			}
-			ch, err := smtp.NewSMTPDeliver(smtp.Config{
+			ch, err := smtp.NewDeliver(smtp.Config{
 				Host:     channelConfig.Host,
 				Username: channelConfig.Username,
 				Password: channelConfig.Password,

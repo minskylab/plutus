@@ -17,7 +17,7 @@ func NewBridge() *Bridge {
 	return &Bridge{r: rand.New(rand.NewSource(time.Now().Unix()))}
 }
 
-func (bridge *Bridge) Describe() *plutus.BridgeDescription {
+func (bridge *Bridge) Description() *plutus.BridgeDescription {
 	return dummyDesc
 }
 

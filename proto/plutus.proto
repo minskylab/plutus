@@ -128,10 +128,8 @@ message CardTokenByCustomer {
 
 message NewCardTokenRequest {
     Provider provider = 4;
-
     Card card = 1;
     Customer customer = 2;
-
     CardTokenType type = 3;
 }
 
@@ -169,6 +167,7 @@ message CardToken {
     string id = 1;
     CardTokenType type = 2;
     string value = 3;
+    Provider provider = 6;
     EncodedCardDetails withCard = 4;
     google.protobuf.Timestamp createdAt = 5;
 }
@@ -220,6 +219,7 @@ message ChargeToken {
     string id = 1;
     string value = 2;
     string message = 3;
+    Provider provider = 6;
     CardToken withCardToken = 4;
     google.protobuf.Timestamp createdAt = 5;
 }
@@ -258,4 +258,5 @@ enum Provider {
     STRIPE = 3;
     DUMMY = 4;
     // TODO: Add more providers here
+    // TODO: Change paradigm to accept any custom provider
 }

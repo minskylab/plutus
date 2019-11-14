@@ -2,162 +2,214 @@ package plutus
 
 import (
 	"context"
+	"strings"
+	"time"
 
 	proto "github.com/bregydoc/plutus/proto"
 )
 
-func (e *SalesEngine) NewCardToken(context.Context, *proto.NewCardTokenRequest) (*proto.CardToken, error) {
+func (e *SalesEngine) NewCardToken(c context.Context, req *proto.NewCardTokenRequest) (*proto.CardToken, error) {
+	var bridge PaymentBridge = nil
+	for _, b := range e.Bridges {
+		if strings.EqualFold(b.Description().Name, req.Provider.String()) {
+			bridge = b
+			break
+		}
+	}
+
+	if bridge == nil {
+		return nil, ErrInvalidBridge
+	}
+
+	var customer *Customer
+	if req.Customer != nil {
+		var location *Location
+		if req.Customer.Location != nil {
+			location = &Location{
+				Address: req.Customer.Location.Address,
+				City:    req.Customer.Location.City,
+				ZIP:     req.Customer.Location.Zip,
+				State:   req.Customer.Location.State,
+			}
+		}
+		customer = &Customer{
+			ID:       req.Customer.Id,
+			Email:    req.Customer.Email,
+			Name:     req.Customer.Name,
+			Person:   req.Customer.Person,
+			Phone:    req.Customer.Phone,
+			Location: location,
+		}
+	}
+
+	token, err := bridge.NewToken(CardDetails{
+		Number: req.Card.Number,
+		Expiration: Date{
+			Month: int(req.Card.ExpMont),
+			Year:  int(req.Card.ExpYear),
+		},
+		CVV:      req.Card.Cvc,
+		Customer: customer,
+	}, cardTokenTypeFromProto(req.Type))
+	if err != nil {
+		return nil, err
+	}
+
+	token, err = e.Repository.SaveCardToken(c, token)
+	if err != nil {
+		return nil, err
+	}
+
+	return cardTokenToProto(*token), nil
+}
+
+func (e *SalesEngine) NewCardTokenAuto(c context.Context, req *proto.NewCardTokenAutoRequest) (*proto.CardToken, error) {
+	if len(e.Bridges) == 0 {
+		return nil, ErrNotAvailableBridges
+	}
+
+	for _, b := range e.Bridges {
+
+	}
+}
+
+func (e *SalesEngine) NewCardTokenFromNative(c context.Context, req *proto.NewCardTokenNativeRequest) (*proto.CardToken, error) {
+	var bridge PaymentBridge = nil
+	for _, b := range e.Bridges {
+		if strings.EqualFold(b.Description().Name, req.Provider.String()) {
+			bridge = b
+			break
+		}
+	}
+
+	if bridge == nil {
+		return nil, ErrInvalidBridge
+	}
+
+	nativeToken := req.Token
+	t := cardTokenTypeFromProto(req.Type)
+	var customer *Customer
+	if req.Customer != nil {
+		c := customerFromProto(req.Customer)
+		customer = &c
+	}
+
+	token := &CardToken{
+		CreatedAt: time.Now(),
+		Type:      t,
+		Value:     nativeToken,
+		WithCard: EncodedCardDetails{
+			Customer: customer,
+		},
+	}
+
+	var err error
+	token, err = e.Repository.SaveCardToken(c, token)
+	if err != nil {
+		return nil, err
+	}
+
+	return cardTokenToProto(*token), nil
+}
+
+func (e *SalesEngine) GetCardTokenOfCustomerByID(c context.Context, req *proto.CardTokenByID) (*proto.CardToken, error) {
+	card, err := e.Repository.GetCardToken(c, req.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	return cardTokenToProto(*card), nil
+}
+
+func (e *SalesEngine) DeleteCardToken(c context.Context, req *proto.CardTokenByID) (*proto.CardToken, error) {
 
 }
 
-func (e *SalesEngine) NewCardTokenAuto(context.Context, *proto.NewCardTokenAutoRequest) (*proto.CardToken, error) {
+func (e *SalesEngine) NewFastSale(c context.Context, req *proto.FastSale) (*proto.Sale, error) {
+	sale, err := newBasicSale(req.CustomerEmail, productsFromProto(req.Products))
+	if err != nil {
+		return nil, err
+	}
+
+	sale, err = e.Repository.SaveSale(c, sale)
+	if err != nil {
+		return nil, err
+	}
+
+	return saleToProto(*sale), nil
+}
+
+func (e *SalesEngine) NewSale(c context.Context, req *proto.NewSaleRequest) (*proto.Sale, error) {
+	customer := customerFromProto(req.Customer)
+	sale := &Sale{
+		Customer:  &customer,
+		Products:  productsFromProto(req.Products),
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		State:     Draft,
+	}
+
+	var err error
+	sale, err = e.Repository.SaveSale(c, sale)
+	if err != nil {
+		return nil, err
+	}
+
+	return saleToProto(*sale), nil
+}
+
+func (e *SalesEngine) GetSale(c context.Context, req *proto.SaleIDRequest) (*proto.Sale, error) {
 
 }
 
-func (e *SalesEngine) NewCardTokenFromNative(context.Context, *proto.NewCardTokenNativeRequest) (*proto.CardToken, error) {
+func (e *SalesEngine) GetSales(c context.Context, req *proto.SalesFilterRequest) (*proto.Sales, error) {
 
 }
 
-func (e *SalesEngine) GetCardTokenOfCustomerByID(context.Context, *proto.CardTokenByID) (*proto.CardToken, error) {
+func (e *SalesEngine) UpdateSale(c context.Context, req *proto.SaleUpdateRequest) (*proto.Sale, error) {
 
 }
 
-func (e *SalesEngine) DeleteCardToken(context.Context, *proto.CardTokenByID) (*proto.CardToken, error) {
+func (e *SalesEngine) DeliverSale(c context.Context, req *proto.DeliverSaleRequest) (*proto.DeliverChannelResponse, error) {
 
 }
 
-func (e *SalesEngine) NewFastSale(context.Context, *proto.FastSale) (*proto.Sale, error) {
+func (e *SalesEngine) ChargeSale(c context.Context, req *proto.ChargeSaleRequest) (*proto.ChargeToken, error) {
 
 }
 
-func (e *SalesEngine) NewSale(context.Context, *proto.NewSaleRequest) (*proto.Sale, error) {
+func (e *SalesEngine) ChargeSaleAuto(c context.Context, req *proto.ChargeSaleAutoRequest) (*proto.ChargeToken, error) {
 
 }
 
-func (e *SalesEngine) GetSale(context.Context, *proto.SaleIDRequest) (*proto.Sale, error) {
+func (e *SalesEngine) ChargeSaleWithNativeToken(c context.Context, req *proto.ChargeWithNativeToken) (*proto.ChargeToken, error) {
 
 }
 
-func (e *SalesEngine) GetSales(context.Context, *proto.SalesFilterRequest) (*proto.Sales, error) {
+func (e *SalesEngine) DoneSale(c context.Context, req *proto.SaleIDRequest) (*proto.Sale, error) {
 
 }
 
-func (e *SalesEngine) UpdateSale(context.Context, *proto.SaleUpdateRequest) (*proto.Sale, error) {
+func (e *SalesEngine) CreateDiscountCode(c context.Context, req *proto.DiscountCodeRequest) (*proto.DiscountCode, error) {
 
 }
 
-func (e *SalesEngine) DeliverSale(context.Context, *proto.DeliverSaleRequest) (*proto.DeliverChannelResponse, error) {
+func (e *SalesEngine) GetDiscountCode(c context.Context, req *proto.DiscountCodeID) (*proto.DiscountCode, error) {
 
 }
 
-func (e *SalesEngine) ChargeSale(context.Context, *proto.ChargeSaleRequest) (*proto.ChargeToken, error) {
+func (e *SalesEngine) ValidateDiscountCode(c context.Context, req *proto.DiscountCodeValue) (*proto.DiscountCodeExist, error) {
 
 }
 
-func (e *SalesEngine) ChargeSaleAuto(context.Context, *proto.ChargeSaleAutoRequest) (*proto.ChargeToken, error) {
+func (e *SalesEngine) GetActiveDiscountCodes(c context.Context, req *proto.ActiveDiscountsRequest) (*proto.DiscountCodes, error) {
 
 }
 
-func (e *SalesEngine) ChargeSaleWithNativeToken(context.Context, *proto.ChargeWithNativeToken) (*proto.ChargeToken, error) {
+func (e *SalesEngine) DeleteDiscountCode(c context.Context, req *proto.DiscountCodeID) (*proto.DiscountCodes, error) {
 
 }
 
-func (e *SalesEngine) DoneSale(context.Context, *proto.SaleIDRequest) (*proto.Sale, error) {
-
-}
-
-func (e *SalesEngine) CreateDiscountCode(context.Context, *proto.DiscountCodeRequest) (*proto.DiscountCode, error) {
-
-}
-
-func (e *SalesEngine) GetDiscountCode(context.Context, *proto.DiscountCodeID) (*proto.DiscountCode, error) {
-
-}
-
-func (e *SalesEngine) ValidateDiscountCode(context.Context, *proto.DiscountCodeValue) (*proto.DiscountCodeExist, error) {
-
-}
-
-func (e *SalesEngine) GetActiveDiscountCodes(context.Context, *proto.ActiveDiscountsRequest) (*proto.DiscountCodes, error) {
-
-}
-
-func (e *SalesEngine) DeleteDiscountCode(context.Context, *proto.DiscountCodeID) (*proto.DiscountCodes, error) {
-
-}
-
-// // NewCardToken implements a grpc plutus service
-// func (e *SalesEngine) NewCardToken(c context.Context, p *plutus.NewCardTokenRequest) (*plutus.CardToken, error) {
-// 	var customer *Customer
-// 	if p.Customer != nil {
-// 		var location *Location
-// 		if p.Customer.Location != nil {
-// 			location = &Location{
-// 				Address: p.Customer.Location.Address,
-// 				City:    p.Customer.Location.City,
-// 				ZIP:     p.Customer.Location.Zip,
-// 				State:   p.Customer.Location.State,
-// 			}
-// 		}
-// 		customer = &Customer{
-// 			ID:       p.Customer.Id,
-// 			Email:    p.Customer.Email,
-// 			Name:     p.Customer.Name,
-// 			Person:   p.Customer.Person,
-// 			Phone:    p.Customer.Phone,
-// 			Location: location,
-// 		}
-// 	}
-//
-// 	token, err := e.Bridge.NewToken(CardDetails{
-// 		Number: p.Card.Number,
-// 		Expiration: Date{
-// 			Month: int(p.Card.ExpMont),
-// 			Year:  int(p.Card.ExpYear),
-// 		},
-// 		CVV:      p.Card.Cvc,
-// 		Customer: customer,
-// 	}, cardTokenTypeFromProto(p.Type))
-// 	if err != nil {
-// 		return nil, err
-// 	}
-//
-// 	token, err = e.Repository.SaveCardToken(token)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-//
-// 	return cardTokenToProto(*token), nil
-// }
-//
-// // NewCardTokenFromNative implements a grpc plutus service
-// func (e *SalesEngine) NewCardTokenFromNative(c context.Context, p *plutus.NewCardTokenNativeRequest) (*plutus.CardToken, error) {
-// 	nativeToken := p.Token
-// 	t := cardTokenTypeFromProto(p.Type)
-// 	var customer *Customer
-// 	if p.Customer != nil {
-// 		c := customerFromProto(p.Customer)
-// 		customer = &c
-// 	}
-//
-// 	token := &CardToken{
-// 		CreatedAt: time.Now(),
-// 		Type:      t,
-// 		Value:     nativeToken,
-// 		WithCard: EncodedCardDetails{
-// 			Customer: customer,
-// 		},
-// 	}
-//
-// 	var err error
-// 	token, err = e.Repository.SaveCardToken(token)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-//
-// 	return cardTokenToProto(*token), nil
-// }
-//
 // // GetCardTokenOfCustomerByID implements a grpc plutus service
 // func (e *SalesEngine) GetCardTokenOfCustomerByID(c context.Context, p *plutus.CardTokenByID) (*plutus.CardToken, error) {
 // 	token, err := e.Repository.GetCardToken(p.Id)

@@ -18,6 +18,7 @@ type CardToken struct {
 	ID        string
 	Value     string
 	Type      CardTokenType
+	Provider  ProviderType
 	WithCard  EncodedCardDetails
 	CreatedAt time.Time
 }

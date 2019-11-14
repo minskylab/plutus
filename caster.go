@@ -96,6 +96,40 @@ func cardTokenTypeFromProto(cardType plutus.CardTokenType) CardTokenType {
 	return t
 }
 
+func providerTypeToProto(provider ProviderType) plutus.Provider {
+	switch provider {
+	case CULQI:
+		return plutus.Provider_CULQI
+	case PAYPAL:
+		return plutus.Provider_PAYPAL
+	case VISANET:
+		return plutus.Provider_VISANET
+	case STRIPE:
+		return plutus.Provider_STRIPE
+	case DUMMY:
+		return plutus.Provider_DUMMY
+	default:
+		return -1
+	}
+}
+
+func providerTypeFromProto(provider plutus.Provider) ProviderType {
+	switch provider {
+	case plutus.Provider_CULQI:
+		return CULQI
+	case plutus.Provider_PAYPAL:
+		return PAYPAL
+	case plutus.Provider_VISANET:
+		return VISANET
+	case plutus.Provider_STRIPE:
+		return STRIPE
+	case plutus.Provider_DUMMY:
+		return DUMMY
+	default:
+		return -1
+	}
+}
+
 func cardTokenToProto(token CardToken) *plutus.CardToken {
 	createdAt, _ := ptypes.TimestampProto(token.CreatedAt)
 
@@ -103,6 +137,7 @@ func cardTokenToProto(token CardToken) *plutus.CardToken {
 		CreatedAt: createdAt,
 		Id:        token.ID,
 		Type:      cardTokenTypeToProto(token.Type),
+		Provider:  providerTypeToProto(token.Provider),
 		Value:     token.Value,
 		WithCard:  encodedCardDetailsToProto(token.WithCard),
 	}
@@ -117,6 +152,7 @@ func cardTokenFromProto(token *plutus.CardToken) CardToken {
 		CreatedAt: createdAt,
 		ID:        token.Id,
 		Type:      cardTokenTypeFromProto(token.Type),
+		Provider:  providerTypeFromProto(token.Provider),
 		Value:     token.Value,
 		WithCard:  encodedCardDetailsFromProto(token.WithCard),
 	}
@@ -128,6 +164,7 @@ func chargeTokenToProto(token ChargeToken) *plutus.ChargeToken {
 		CreatedAt:     createdAt,
 		Id:            token.ID,
 		Message:       token.Message,
+		Provider:      providerTypeToProto(token.Provider),
 		Value:         token.Value,
 		WithCardToken: cardTokenToProto(token.WithCardToken),
 	}
@@ -142,6 +179,7 @@ func chargeTokenFromProto(token *plutus.ChargeToken) ChargeToken {
 		CreatedAt:     createdAt,
 		ID:            token.Id,
 		Message:       token.Message,
+		Provider:      providerTypeFromProto(token.Provider),
 		Value:         token.Value,
 		WithCardToken: cardTokenFromProto(token.WithCardToken),
 	}

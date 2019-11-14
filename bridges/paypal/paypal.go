@@ -48,8 +48,8 @@ func NewBridge(publicKey, privateKey string) (*Bridge, error) {
 	return bridge, nil
 }
 
-// Describe implements a plutus bridge interface
-func (bridge *Bridge) Describe() *plutus.BridgeDescription {
+// Description implements a plutus bridge interface
+func (bridge *Bridge) Description() *plutus.BridgeDescription {
 	return paypalDescription
 }
 

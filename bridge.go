@@ -4,6 +4,7 @@ package plutus
 type BridgeDescription struct {
 	Name                 string
 	Version              string
+	Type                 ProviderType
 	CanGenerateCardToken bool
 	CanMakeCharge        bool
 	CanMakeRefund        bool
@@ -11,7 +12,7 @@ type BridgeDescription struct {
 
 // PaymentBridge is an abstraction layer for your charger ends
 type PaymentBridge interface {
-	Describe() *BridgeDescription
+	Description() *BridgeDescription
 	NewToken(details CardDetails, kind CardTokenType) (*CardToken, error)
 	MakeCharge(source CardToken, params ChargeParams) (*ChargeToken, error)
 	MakeRefund(source ChargeToken, params RefundParams) (*RefundToken, error)
