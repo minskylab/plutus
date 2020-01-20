@@ -26,3 +26,4 @@ plutus
 *.db
 plutus.config.yml
 .idea
+package.json

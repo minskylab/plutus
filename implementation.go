@@ -11,6 +11,7 @@ import (
 func (e *SalesEngine) NewCardToken(c context.Context, req *proto.NewCardTokenRequest) (*proto.CardToken, error) {
 	var bridge PaymentBridge = nil
 	for _, b := range e.Bridges {
+		// b.Description().Type == req.Provider
 		if strings.EqualFold(b.Description().Name, req.Provider.String()) {
 			bridge = b
 			break
@@ -64,12 +65,13 @@ func (e *SalesEngine) NewCardToken(c context.Context, req *proto.NewCardTokenReq
 }
 
 func (e *SalesEngine) NewCardTokenAuto(c context.Context, req *proto.NewCardTokenAutoRequest) (*proto.CardToken, error) {
+	// TODO: Create complete "auto provider detect" algorithm
 	if len(e.Bridges) == 0 {
 		return nil, ErrNotAvailableBridges
 	}
 
 	for _, b := range e.Bridges {
-
+		// TODO: Bregy continue here!
 	}
 }
 
